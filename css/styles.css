@@ -109,13 +109,13 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
   position: relative; overflow: hidden;
   min-height: calc(100svh - 52px);
   display: flex; flex-direction: column; justify-content: center;
-  padding: 48px clamp(16px, 5vw, 64px) 48px;
-  max-width: 1200px; margin: 0 auto;
+  /* ocupa todo el ancho (las cartas decorativas llegan al borde de la pantalla); el contenido sigue centrado en 1072px */
+  padding: 32px max(clamp(16px, 5vw, 64px), calc((100% - 1072px) / 2));
 }
 .hero > :not(.hero__decor) { position: relative; z-index: 1; }
 .hero__title { text-align: center; font-weight: 900; }
 .hero__hola {
-  display: block; font-size: clamp(72px, 15vw, 190px); line-height: .9; letter-spacing: .04em;
+  display: block; font-size: clamp(72px, min(15vw, 22svh), 190px); line-height: .9; letter-spacing: .04em;
   background: linear-gradient(180deg, #fff 30%, var(--gold)); -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .hero__hola { position: relative; z-index: 0; }
@@ -124,8 +124,9 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
   display: flex; align-items: center; justify-content: center;
   gap: clamp(8px, 2vw, 28px);
   margin-top: calc(var(--s) * -0.24);      /* la foto sube y queda por encima del HOLA */
-  font-size: clamp(48px, 10vw, 128px);
-  --s: clamp(300px, 50vw, 620px);
+  /* tamaños limitados también por la altura, para que todo el hero quepa en pantalla */
+  font-size: clamp(48px, min(10vw, 15svh), 128px);
+  --s: clamp(300px, min(50vw, 52svh), 620px);
 }
 .hero__soy, .hero__name { text-shadow: 0 6px 30px #000; margin-top: 18%; }
 
@@ -159,7 +160,7 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
 
 .hero__bottom {
   display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap;
-  margin-top: clamp(48px, 9vh, 110px);
+  margin-top: clamp(32px, 6svh, 110px);
 }
 .hero__role .eyebrow { margin-bottom: 6px; }
 .hero__clase { margin: 0; font-size: clamp(18px, 2.4vw, 28px); font-weight: 500; }
