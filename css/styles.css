@@ -177,10 +177,10 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
 }
 /* 3 cartas a cada lado, completas dentro de la pantalla (desktop) */
 .hero__float--1 { left: 2%;  top: 7%;  --r: -14deg; }
-.hero__float--2 { left: clamp(16px, 6.5vw, 170px); top: 38%; --r: 9deg; --w: clamp(64px, 6.5vw, 115px); opacity: .2; animation-delay: -2s; }
+.hero__float--2 { left: 17%; top: 5%; --r: 9deg; --w: clamp(64px, 6.5vw, 115px); opacity: .2; animation-delay: -2s; }
 .hero__float--3 { left: 2.5%; top: 68%; --r: -6deg; animation-delay: -4.5s; }
 .hero__float--4 { right: 2%; top: 9%;  --r: 13deg; animation-delay: -1s; }
-.hero__float--5 { right: clamp(16px, 6.5vw, 170px); top: 40%; --r: -10deg; --w: clamp(64px, 6.5vw, 115px); opacity: .2; animation-delay: -5.5s; }
+.hero__float--5 { right: 17%; top: 7%; --r: -10deg; --w: clamp(64px, 6.5vw, 115px); opacity: .2; animation-delay: -5.5s; }
 .hero__float--6 { right: 2.5%; top: 70%; --r: 7deg; animation-delay: -3s; }
 @keyframes drift {
   0%, 100% { transform: rotate(var(--r)) translateY(0); }
@@ -455,17 +455,19 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
 /* Desktop: hero más grande; la descripción y "Contáctame" se abren hacia los lados
    y suben junto a la barbilla para dejar sitio a la foto */
 @media (min-width: 1100px) {
-  .hero { --s: clamp(300px, min(50vw, 66svh), 780px); }
+  .hero { --s: clamp(300px, min(54vw, 74svh), 900px); }
   .hero__line {
     --s: inherit;
+    align-items: flex-start;
     font-size: clamp(48px, min(11vw, 17svh), 160px);
   }
   .hero__hola { font-size: clamp(72px, min(16vw, 24svh), 230px); }
-  .hero__soy, .hero__name { margin-top: 7%; }   /* más cerca del HOLA */
+  /* "Soy Samu" anclado justo debajo del HOLA (la línea empieza 0.24·s por encima de su borde inferior) */
+  .hero__soy, .hero__name { margin-top: calc(var(--s) * .24 + .1em); }
   .hero__bottom {
     /* más ancho que el contenido, sin pisar las cartas laterales (hasta 1560px) */
     margin-inline: min(0px, calc((100% - min(79vw - 48px, 1560px)) / 2));
-    margin-top: calc(var(--s) * -0.2);
+    margin-top: calc(var(--s) * -0.3);
   }
 }
 @media (max-width: 900px) {
