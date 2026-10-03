@@ -159,8 +159,62 @@ const CARTAS = [
     ],
     lema: "«Nada está donde está por casualidad.»",
     proyectos: [
-      { titulo: "Proyecto Composición 01", imagen: "", desc: "Descripción breve del proyecto.", link: "" },
-      { titulo: "Proyecto Composición 02", imagen: "", desc: "Descripción breve del proyecto.", link: "" }
+      {
+        grupo: "Publicidad",
+        titulo: "The North Face: rediseño de un anuncio",
+        contexto: "Clase de composición",
+        resumen: "Desarmar un anuncio para entender por qué funciona… y volver a armarlo mejor.",
+        etiquetas: ["Composición", "Dirección de arte", "Photoshop"],
+        historia: [
+          { titulo: "El punto de partida",
+            texto: "Partí de un anuncio de The North Face, una marca que vende algo más que ropa: la sensación de estar frente a lo imposible. La pregunta era si su composición transmitía esa idea con toda la fuerza que podía." },
+          { titulo: "La lectura",
+            texto: "Lo analicé pieza por pieza: hacia dónde va primero la mirada, qué elemento pesa más, cómo se reparte el espacio y qué tan rápido se entiende el mensaje. Ahí aparecieron las decisiones que podían mejorar." },
+          { titulo: "El rediseño",
+            texto: "Con ese diagnóstico reorganicé el anuncio: una jerarquía más clara, un punto focal dominante y un recorrido visual que lleva de la imagen a la marca sin distracciones." },
+          { titulo: "El resultado",
+            texto: "Un anuncio que se lee en un vistazo y conserva el espíritu de la marca. Todo el proceso, paso a paso, está en las diapositivas." }
+        ],
+        galerias: [
+          { titulo: "El anuncio rediseñado", disposicion: "piezas", medios: [
+            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/anuncio-final.webp", alt: "Anuncio rediseñado · The North Face" }
+          ] },
+          { titulo: "El proceso en 6 diapositivas", disposicion: "presentacion", despues: true, medios: [
+            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-1.webp", alt: "Diapositiva 1 · Proceso The North Face" },
+            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-2.webp", alt: "Diapositiva 2 · Proceso The North Face" },
+            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-3.webp", alt: "Diapositiva 3 · Proceso The North Face" },
+            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-4.webp", alt: "Diapositiva 4 · Proceso The North Face" },
+            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-5.webp", alt: "Diapositiva 5 · Proceso The North Face" },
+            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-6.webp", alt: "Diapositiva 6 · Proceso The North Face" }
+          ] }
+        ]
+      },
+      {
+        grupo: "Campaña",
+        titulo: "Lanzamiento de una serie",
+        contexto: "Proyecto en equipos",
+        resumen: "Antes de que algo exista, hay que hacer que la gente lo espere. Diseñamos la campaña para lanzar una serie: primero la expectativa, después la revelación.",
+        etiquetas: ["Composición", "Campaña", "Trabajo en equipo"],
+        historia: [
+          { titulo: "El encargo",
+            texto: "En la carrera creamos una serie entre varios equipos, y había que darla a conocer. El reto no era solo diseñar piezas bonitas, sino construir una campaña con un orden: cada pieza tenía que preparar a la siguiente." },
+          { titulo: "La expectativa",
+            texto: "Las piezas de expectativa muestran poco a propósito. Juegan con lo que se oculta, con el espacio vacío y con un detalle que despierta la pregunta. La composición dirige la mirada hacia aquello que todavía no se explica." },
+          { titulo: "El lanzamiento",
+            texto: "La pieza de lanzamiento resuelve la intriga: aquí todo se revela y la jerarquía cambia. El título y la promesa de la serie pasan al frente, conservando el lenguaje visual que construyeron las piezas anteriores para que el público reconozca que todo era parte de lo mismo." },
+          { titulo: "El resultado",
+            texto: "Una campaña coherente de principio a fin, donde cada pieza tiene un papel distinto pero todas hablan el mismo idioma." }
+        ],
+        galerias: [
+          { titulo: "Expectativa", disposicion: "piezas", medios: [
+            { tipo: "imagen", src: "assets/proyectos/composicion/serie/expectativa-1.webp", alt: "Pieza de expectativa 1" },
+            { tipo: "imagen", src: "assets/proyectos/composicion/serie/expectativa-2.webp", alt: "Pieza de expectativa 2" }
+          ] },
+          { titulo: "Lanzamiento", disposicion: "piezas", medios: [
+            { tipo: "imagen", src: "assets/proyectos/composicion/serie/lanzamiento.webp", alt: "Pieza de lanzamiento" }
+          ] }
+        ]
+      }
     ]
   },
   {

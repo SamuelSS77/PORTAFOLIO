@@ -468,6 +468,48 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
 .media--ph span { font-size: 13px; color: var(--muted); padding: 0 12px; }
 .media--ph small { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-2); }
 
+/* bloques de galería con título */
+.gallery-block { margin-top: 22px; }
+.gallery-block .gallery { margin-top: 0; }
+.gallery__title {
+  margin: 0 0 10px; font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--muted);
+}
+
+/* piezas gráficas: completas, en su proporción real */
+.gallery--piezas { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); align-items: start; }
+.gallery--piezas > :first-child { grid-column: auto; }
+.gallery--piezas:has(> :only-child) { grid-template-columns: minmax(0, 380px); }   /* pieza única = protagonista */
+.gallery--piezas .media { aspect-ratio: auto; }
+.gallery--piezas .media--img { --z: 1; }
+.gallery--piezas .media img { height: auto; object-fit: contain; }
+.gallery--piezas .media--ph { aspect-ratio: 4 / 5; }
+
+/* presentación: carrusel de diapositivas */
+.slides { position: relative; }
+.slides__track {
+  display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+  border-radius: 10px;
+}
+.slides__track::-webkit-scrollbar { display: none; }
+.slides__track > * { flex: 0 0 100%; scroll-snap-align: start; border-radius: 0; }
+.slides .media--img { --z: 1; }
+.slides .media img { object-fit: contain; }
+.slides .media__cap { display: none; }
+.slides__nav {
+  position: absolute; top: 50%; translate: 0 -50%; z-index: 1;
+  width: 40px; height: 40px; border-radius: 50%; border: 1px solid #ffffff26;
+  background: #0d0b14cc; color: var(--text); font-size: 24px; line-height: 1; cursor: pointer;
+  backdrop-filter: blur(4px);
+}
+.slides__nav:hover { border-color: var(--gold); color: var(--gold); }
+.slides__nav--prev { left: 10px; }
+.slides__nav--next { right: 10px; }
+.slides__count {
+  position: absolute; right: 10px; bottom: 10px; z-index: 1;
+  padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600;
+  background: #0d0b14cc; border: 1px solid #ffffff1a;
+}
+
 /* fases de la historia */
 .fases { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 16px; }
 .fase { display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: start; }

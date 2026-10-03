@@ -223,6 +223,7 @@ function summon(id) {
     ? playsHTML(c)
     : `<p class="plays__empty">Aún no hay jugadas registradas para esta carta.</p>`;
   setupMedia(plays);
+  setupSlides(plays);
 
   const dialog = $("#summon");
   dialog.showModal();
@@ -267,14 +268,16 @@ function playsHTML(c) {
 }
 
 function jugadaHTML(p, n) {
-  const medios = p.medios || [];
+  // "medios" es atajo de una sola galería; "galerias" permite varias con título y posición
+  const galerias = p.galerias || (p.medios ? [{ medios: p.medios }] : []);
   const tags = (p.etiquetas || []).map((t) => `<li>${escapeHTML(t)}</li>`).join("");
   const fases = (p.historia || []).map((f, i) => `
     <li class="fase">
       <span class="fase__num">${String(i + 1).padStart(2, "0")}</span>
       <div><h5>${escapeHTML(f.titulo)}</h5><p>${escapeHTML(f.texto)}</p></div>
     </li>`).join("");
-  const galeria = medios.length > 1 ? "gallery" : "gallery gallery--single";
+  const antes = galerias.filter((g) => !g.despues).map(galeriaHTML).join("");
+  const despues = galerias.filter((g) => g.despues).map(galeriaHTML).join("");
 
   return `
     <article class="jugada">
@@ -284,9 +287,56 @@ function jugadaHTML(p, n) {
         ${p.resumen ? `<p class="jugada__lead">${escapeHTML(p.resumen)}</p>` : ""}
         ${tags ? `<ul class="tags">${tags}</ul>` : ""}
       </header>
-      ${medios.length ? `<div class="${galeria}">${medios.map(mediaHTML).join("")}</div>` : ""}
+      ${antes}
       ${fases ? `<ol class="fases">${fases}</ol>` : ""}
+      ${despues}
     </article>`;
+}
+
+/* disposicion: "galeria" (por defecto: la 1ª grande + cuadrícula, con zoom al objeto),
+   "presentacion" (carrusel de diapositivas) o "piezas" (piezas gráficas completas, sin recortes) */
+function galeriaHTML(g) {
+  const medios = g.medios || [];
+  if (!medios.length) return "";
+  const disp = g.disposicion || "galeria";
+  const titulo = g.titulo ? `<h5 class="gallery__title">${escapeHTML(g.titulo)}</h5>` : "";
+
+  if (disp === "presentacion") {
+    return `
+      <div class="gallery-block">
+        ${titulo}
+        <div class="slides" data-galeria>
+          <div class="slides__track">${medios.map(mediaHTML).join("")}</div>
+          <button class="slides__nav slides__nav--prev" type="button" aria-label="Diapositiva anterior">‹</button>
+          <button class="slides__nav slides__nav--next" type="button" aria-label="Diapositiva siguiente">›</button>
+          <span class="slides__count">1 / ${medios.length}</span>
+        </div>
+      </div>`;
+  }
+  const cls = disp === "piezas"
+    ? "gallery gallery--piezas"
+    : medios.length > 1 ? "gallery" : "gallery gallery--single";
+  return `
+    <div class="gallery-block">
+      ${titulo}
+      <div class="${cls}" data-galeria>${medios.map(mediaHTML).join("")}</div>
+    </div>`;
+}
+
+// carrusel de diapositivas: flechas + contador sincronizado con el deslizamiento
+function setupSlides(scope) {
+  scope.querySelectorAll(".slides").forEach((box) => {
+    const track = box.querySelector(".slides__track");
+    const count = box.querySelector(".slides__count");
+    const step = (dir) => track.scrollBy({ left: dir * track.clientWidth, behavior: reduceMotion ? "auto" : "smooth" });
+    box.querySelector(".slides__nav--prev").addEventListener("click", () => step(-1));
+    box.querySelector(".slides__nav--next").addEventListener("click", () => step(1));
+    track.addEventListener("scroll", () => {
+      const total = track.children.length;
+      const i = Math.min(total, Math.round(track.scrollLeft / track.clientWidth) + 1);
+      count.textContent = `${i} / ${total}`;
+    }, { passive: true });
+  });
 }
 
 function mediaHTML(m) {
@@ -360,7 +410,7 @@ function setupViewer() {
   $("#summonPlays").addEventListener("click", (e) => {
     const btn = e.target.closest(".media--img");
     if (!btn) return;
-    list = [...btn.closest(".gallery").querySelectorAll(".media--img")];
+    list = [...btn.closest("[data-galeria]").querySelectorAll(".media--img")];
     show(list.indexOf(btn));
     viewer.showModal();
   });
