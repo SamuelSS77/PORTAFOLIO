@@ -73,7 +73,7 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
 .nav__links a:hover::after, .nav__links a:focus-visible::after { transform: scaleX(1); }
 
 /* ---------- Comunes ---------- */
-.section { padding: clamp(64px, 10vw, 120px) clamp(16px, 4vw, 48px); max-width: 1200px; margin: 0 auto; }
+.section { padding: clamp(40px, 4vw, 56px) clamp(16px, 4vw, 48px); max-width: 1200px; margin: 0 auto; }
 .eyebrow { color: var(--gold); font-size: 12px; letter-spacing: .25em; text-transform: uppercase; margin: 0 0 12px; }
 .section__title { font-size: clamp(30px, 5vw, 48px); margin-bottom: 16px; }
 .section__lead { color: var(--muted); max-width: 60ch; margin: 0 0 40px; }
@@ -168,13 +168,19 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
 .hero__semestre { margin: 2px 0 0; font-size: 14px; color: var(--muted); }
 
 /* cartas decorativas flotando al fondo */
+.hero__float { --w: clamp(80px, 8.5vw, 150px); opacity: .3; }
 .hero__decor .hero__float {
-  position: absolute; width: clamp(110px, 13vw, 170px); aspect-ratio: 63 / 88; border-radius: var(--radius);
-  opacity: .3; box-shadow: 0 30px 60px -20px #000;
+  position: absolute; width: var(--w); aspect-ratio: 63 / 88; border-radius: var(--radius);
+  box-shadow: 0 30px 60px -20px #000;
   animation: drift 7s ease-in-out infinite;
 }
-.hero__float--l { left: -40px; top: 14%; --r: -16deg; }
-.hero__float--r { right: -40px; top: 46%; --r: 14deg; animation-delay: -3s; }
+/* 3 cartas a cada lado, completas dentro de la pantalla (desktop) */
+.hero__float--1 { left: 2%;  top: 7%;  --r: -14deg; }
+.hero__float--2 { left: clamp(16px, 6.5vw, 170px); top: 38%; --r: 9deg; --w: clamp(64px, 6.5vw, 115px); opacity: .2; animation-delay: -2s; }
+.hero__float--3 { left: 2.5%; top: 68%; --r: -6deg; animation-delay: -4.5s; }
+.hero__float--4 { right: 2%; top: 9%;  --r: 13deg; animation-delay: -1s; }
+.hero__float--5 { right: clamp(16px, 6.5vw, 170px); top: 40%; --r: -10deg; --w: clamp(64px, 6.5vw, 115px); opacity: .2; animation-delay: -5.5s; }
+.hero__float--6 { right: 2.5%; top: 70%; --r: 7deg; animation-delay: -3s; }
 @keyframes drift {
   0%, 100% { transform: rotate(var(--r)) translateY(0); }
   50% { transform: rotate(var(--r)) translateY(-16px); }
@@ -452,11 +458,16 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
   .rules { grid-template-columns: 1fr; }
   .summon__body { grid-template-columns: 1fr; justify-items: center; padding: 24px 16px; }
   .summon__info { width: 100%; }
+  .hero__float--2, .hero__float--5 { display: none; }
 }
 @media (max-width: 560px) {
   .nav__links a { font-size: 14px; letter-spacing: .03em; }
   .hero__line { gap: 6px; --s: 240px; font-size: 38px; }
   .hero__avatar { margin-inline: -14px; }   /* aprovecha el borde transparente del PNG */
+  /* en móvil solo 2 cartas asomando por los bordes, para no tapar el texto */
+  .hero__float--3, .hero__float--4 { display: none; }
+  .hero__float--1 { left: -36px; top: 12%; --w: 100px; }
+  .hero__float--6 { right: -36px; top: 50%; --w: 100px; }
   .reto { padding: 22px 18px; }
   .contact__link { padding: 12px; gap: 10px; }
   .contact__icon { width: 34px; height: 34px; font-size: 16px; }
