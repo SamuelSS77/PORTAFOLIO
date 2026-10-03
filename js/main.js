@@ -21,8 +21,13 @@ function renderMaestro() {
   const avatar = $("#heroAvatar");
   if (MAESTRO.foto) {
     const img = `<img src="${escapeHTML(MAESTRO.foto)}" alt="Foto de ${escapeHTML(MAESTRO.nombre)}">`;
-    photo.innerHTML = img;
     avatar.innerHTML = img;
+    if (MAESTRO.fotoReal) {
+      photo.innerHTML = `<img src="${escapeHTML(MAESTRO.fotoReal)}" alt="Foto de ${escapeHTML(MAESTRO.nombreCompleto || MAESTRO.nombre)}">`;
+      photo.classList.add("is-real");
+    } else {
+      photo.innerHTML = img;
+    }
   } else {
     photo.classList.add("is-empty");
     avatar.classList.add("is-empty");
@@ -31,7 +36,48 @@ function renderMaestro() {
   $("#prologo").innerHTML = MAESTRO.prologo.map((p) => `<p>${escapeHTML(p)}</p>`).join("");
   $("#trainerCount").textContent = CARTAS.filter((c) => !c.bloqueada).length;
 
-  $("#contactMail").href = `mailto:${MAESTRO.correo}`;
+  // carta del Maestro: se inclina ligeramente y el brillo sigue al ratón
+  const trainer = $(".trainer");
+  trainer.addEventListener("pointermove", (e) => {
+    const r = trainer.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width;
+    const y = (e.clientY - r.top) / r.height;
+    if (!reduceMotion) {
+      trainer.style.setProperty("--ry", `${(x - 0.5) * 12}deg`);
+      trainer.style.setProperty("--rx", `${(0.5 - y) * 12}deg`);
+    }
+    trainer.style.setProperty("--mx", `${x * 100}%`);
+    trainer.style.setProperty("--my", `${y * 100}%`);
+  });
+  trainer.addEventListener("pointerleave", () => {
+    trainer.style.setProperty("--rx", "0deg");
+    trainer.style.setProperty("--ry", "0deg");
+  });
+
+  // Correo: en celular abre la app de correo; en computador, la ventana de redactar de Gmail
+  const asunto = encodeURIComponent(MAESTRO.asuntoCorreo || "");
+  const mail = $("#contactMail");
+  if (matchMedia("(pointer: coarse)").matches) {
+    mail.href = `mailto:${MAESTRO.correo}?subject=${asunto}`;
+  } else {
+    mail.href = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(MAESTRO.correo)}&su=${asunto}`;
+    mail.target = "_blank";
+    mail.rel = "noopener";
+  }
+  $("#contactMailText").textContent = MAESTRO.correo;
+
+  // Teléfono: descarga la tarjeta de contacto (.vcf) -> "Agregar a contactos"
+  const phone = $("#contactPhone");
+  phone.href = MAESTRO.contactoVcf || `tel:${MAESTRO.telefono}`;
+  if (MAESTRO.contactoVcf) phone.setAttribute("download", "Samuel Silva.vcf");
+  $("#contactPhoneText").textContent = MAESTRO.telefonoTexto;
+
+  const contactDialog = $("#contactDialog");
+  $("#contactOpen").addEventListener("click", () => contactDialog.showModal());
+  $("#contactClose").addEventListener("click", () => contactDialog.close());
+  contactDialog.addEventListener("click", (e) => {
+    if (e.target === contactDialog) contactDialog.close();   // clic fuera de la ventana
+  });
   $("#socials").innerHTML = MAESTRO.redes
     .map((r) => `<li><a href="${escapeHTML(r.url)}" target="_blank" rel="noopener">${escapeHTML(r.nombre)}</a></li>`)
     .join("");
@@ -55,7 +101,7 @@ function renderReglas() {
 
 /* ---------- Cartas ---------- */
 function stars(nivel) {
-  return "★".repeat(nivel) + `<span class="off">${"★".repeat(10 - nivel)}</span>`;
+  return "★".repeat(nivel) + `<span class="off">${"★".repeat(5 - nivel)}</span>`;
 }
 
 function cardFront(c) {
@@ -88,7 +134,7 @@ function cardFront(c) {
         <span class="card__name">${escapeHTML(c.nombre)}</span>
         <span class="card__el" title="Elemento: ${el.nombre}">${el.icono}</span>
       </div>
-      <div class="card__stars" aria-label="Nivel ${c.nivel} de 10">${stars(c.nivel)}</div>
+      <div class="card__stars" aria-label="Nivel ${c.nivel} de 5">${stars(c.nivel)}</div>
       <div class="card__art">${art}</div>
       <div class="card__type">[${el.nombre} / ${rareza.nombre}] ${escapeHTML(c.titulo)}</div>
       <ul class="card__abilities">${habilidades}</ul>
@@ -170,7 +216,7 @@ function summon(id) {
   $("#summonCard").innerHTML = cardHTML(c);
   enableTilt($("#summonCard"));
   $("#summonTitle").textContent = c.nombre;
-  $("#summonSubtitle").textContent = `${c.titulo} · ${RAREZAS[c.rareza].nombre} · Nivel ${c.nivel}`;
+  $("#summonSubtitle").textContent = `${c.titulo} · ${RAREZAS[c.rareza].nombre} · ${c.nivel}★ de 5`;
 
   $("#summonPlays").innerHTML = c.proyectos.length
     ? c.proyectos.map((p) => {

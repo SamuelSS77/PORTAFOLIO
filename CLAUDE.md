@@ -14,11 +14,11 @@ Capítulos de la página (en orden):
 
 ## Sistema de cartas
 - Rareza = dominio: común, rara, épica, legendaria (color del borde).
-- Nivel = experiencia, 1–10 estrellas.
+- Nivel = experiencia, 1–5 estrellas.
 - Habilidades = herramientas con "poder".
 - Stats 0–100: creatividad, técnica, velocidad.
 - `bloqueada: true` = carta boca abajo "próxima expansión".
-Cartas actuales: 3D (épica, 7★) y Composición (rara, 6★) — valores provisionales.
+Cartas actuales: 3D (épica, 4★) y Composición (rara, 3★) — valores provisionales.
 
 ## Archivos
 - `js/data.js` — TODO el contenido (MAESTRO, RAREZAS, STATS, ELEMENTOS, CARTAS). Editar contenido aquí, no en el HTML.

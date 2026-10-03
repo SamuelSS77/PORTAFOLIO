@@ -54,6 +54,7 @@
       <p class="eyebrow">Capítulo II · El Maestro</p>
       <h2 class="section__title">Prólogo</h2>
       <div class="maestro">
+        <div class="trainer-wrap">
         <article class="trainer" aria-label="Carta del Maestro">
           <div class="trainer__top">
             <span class="trainer__tag">Maestro</span>
@@ -66,7 +67,9 @@
             <div><dt>Origen</dt><dd data-maestro="origen">Bogotá, Colombia</dd></div>
             <div><dt>Cartas</dt><dd id="trainerCount">0</dd></div>
           </dl>
+          <div class="trainer__holo" aria-hidden="true"></div>
         </article>
+        </div>
         <div class="maestro__text" id="prologo"></div>
       </div>
     </section>
@@ -82,7 +85,7 @@
         </div>
         <div class="rule">
           <h3>Estrellas = Experiencia</h3>
-          <p>De <span class="stars">★</span> a <span class="stars">★★★★★★★★★★</span>. Tiempo y proyectos acumulados usando esa skill.</p>
+          <p>De <span class="stars">★</span> a <span class="stars">★★★★★</span>. Tiempo y proyectos acumulados usando esa skill.</p>
           <h3>Habilidades = Herramientas</h3>
           <p>Las técnicas y programas con los que ejecuto la skill. El número indica su poder (qué tan fuerte la tengo).</p>
         </div>
@@ -106,7 +109,7 @@
       <p class="eyebrow">Capítulo V · El Duelo</p>
       <h2 class="section__title">¿Aceptas el reto?</h2>
       <p class="section__lead">Si tienes un proyecto, tráelo a la mesa. Elegiré las cartas correctas para ganarlo juntos.</p>
-      <a class="btn btn--gold" id="contactMail" href="mailto:">Retar al Maestro</a>
+      <button class="btn btn--gold" id="contactOpen" type="button" aria-haspopup="dialog">Retar al Maestro</button>
       <ul class="socials" id="socials"></ul>
     </section>
   </main>
@@ -114,6 +117,24 @@
   <footer class="footer">
     <p>© <span id="year"></span> <span data-maestro="nombre">Tu Nombre</span> · Set: Origen</p>
   </footer>
+
+  <!-- RETO (ventana de contacto) -->
+  <dialog class="reto" id="contactDialog" aria-labelledby="contactTitle">
+    <button class="summon__close" id="contactClose" aria-label="Cerrar">✕</button>
+    <p class="eyebrow">El Duelo</p>
+    <h2 id="contactTitle">Reta al Maestro</h2>
+    <p class="reto__lead">Elige cómo lanzar tu reto:</p>
+    <div class="contact">
+      <a class="contact__link" id="contactPhone" href="tel:">
+        <span class="contact__icon" aria-hidden="true">☎</span>
+        <span><small>Agregar a contactos</small><b id="contactPhoneText"></b></span>
+      </a>
+      <a class="contact__link" id="contactMail" href="mailto:">
+        <span class="contact__icon" aria-hidden="true">✉</span>
+        <span><small>Enviar correo</small><b id="contactMailText"></b></span>
+      </a>
+    </div>
+  </dialog>
 
   <!-- INVOCACIÓN (detalle de carta) -->
   <dialog class="summon" id="summon" aria-labelledby="summonTitle">

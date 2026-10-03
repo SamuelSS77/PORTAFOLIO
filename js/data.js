@@ -13,24 +13,29 @@ const MAESTRO = {
   semestre: "4° semestre",
   nivel: 4,                          // nivel de Maestro = semestre que cursa
   foto: "assets/SamuelFoto.png",     // PNG con fondo transparente (vacío = silueta)
+  fotoReal: "assets/SamuelFotoReal.png", // foto real para la carta del Prólogo (vacío = usa "foto")
   origen: "Bogotá, Colombia",
   prologo: [
     "Todo maestro empieza con un mazo vacío. El mío se ha ido llenando carta a carta durante mis cuatro semestres de Creación Digital en la Universidad El Bosque: cada herramienta de diseño, modelado o código que aprendí, cada proyecto que terminé y cada error que me obligó a evolucionar.",
     "Hoy colecciono habilidades con un propósito. Cada carta de este mazo representa lo que aporto a la mesa, con su nivel real de experiencia y las jugadas (proyectos) que la respaldan. Sin embargo, mis cartas más valiosas no son solo técnicas: son mi responsabilidad, mi afán por proponer ideas revolucionarias y mi forma de jugar en equipo. Sé leer la mesa, escuchar activamente, comunicarme desde el respeto y usar mi mano siempre con la intención de impulsar a quienes trabajan a mi lado.",
     "Mi objetivo es plasmar mi esencia en cada reto, adaptando mi estrategia y mi mazo exactamente a lo que la partida necesite."
   ],
-  correo: "tucorreo@ejemplo.com",
+  correo: "samuelsantiagosilvalargo@gmail.com",
+  asuntoCorreo: "Reto para el Maestro de Cartas: propuesta de proyecto",
+  telefono: "+573124184684",          // formato internacional para el enlace tel:
+  telefonoTexto: "312 418 4684",      // como se muestra en pantalla
+  contactoVcf: "assets/samuel-silva.vcf", // tarjeta de contacto (si cambias número/correo, cámbialos también ahí)
   redes: [
-    { nombre: "Instagram", url: "https://instagram.com/" },
-    { nombre: "Behance",   url: "https://behance.net/" },
-    { nombre: "LinkedIn",  url: "https://linkedin.com/" }
+    { nombre: "Instagram", url: "https://www.instagram.com/samuelx08_/" },
+    { nombre: "Behance",   url: "https://www.behance.net/samuelsilval2" },
+    { nombre: "LinkedIn",  url: "https://co.linkedin.com/in/samuel-santiago-silva-largo-044745339" }
   ]
 };
 
 /* ---------------------------------------------------------
    REGLAS DEL JUEGO (cómo leer cada carta)
    rareza  -> calidad / dominio de la skill
-   nivel   -> experiencia acumulada (1 a 10 estrellas)
+   nivel   -> experiencia acumulada (1 a 5 estrellas)
    stats   -> 0 a 100
    --------------------------------------------------------- */
 const RAREZAS = {
@@ -66,7 +71,7 @@ const CARTAS = [
     titulo: "El Escultor de Mundos",
     elemento: "forma",
     rareza: "epica",
-    nivel: 7,
+    nivel: 4,
     imagen: "",                       // ej: "assets/cartas/3d.jpg"
     stats: { creatividad: 85, tecnica: 80, velocidad: 60 },
     habilidades: [
@@ -89,12 +94,12 @@ const CARTAS = [
     titulo: "El Guardián del Equilibrio",
     elemento: "armonia",
     rareza: "rara",
-    nivel: 6,
+    nivel: 3,
     imagen: "",
     stats: { creatividad: 80, tecnica: 70, velocidad: 75 },
     habilidades: [
-      { nombre: "Regla de tercios", herramienta: "Photoshop", poder: 60,
-        desc: "Guía la mirada exactamente a donde debe ir." },
+      { nombre: "Equilibrio visual", herramienta: "Photoshop", poder: 60,
+        desc: "Distribuye cada elemento para que la mirada fluya con armonía." },
       { nombre: "Jerarquía visual", herramienta: "Illustrator", poder: 70,
         desc: "Ordena el caos para que cada elemento cuente su parte." }
     ],
