@@ -163,29 +163,28 @@ const CARTAS = [
         grupo: "Publicidad",
         titulo: "The North Face: ¡Atención, escaladores!",
         contexto: "Composición Plástica · UEB",
-        resumen: "Un póster para el 2º Campeonato Nacional de Escalada en Bloque en Sogamoso, Boyacá. Partí de una hoja en blanco y unos textos obligatorios: todo lo demás —cada forma, cada espacio, cada jerarquía— fue decisión mía.",
+        resumen: "Un email marketing para el 2º Campeonato Nacional de Escalada en Bloque en Sogamoso, Boyacá. Partí de una hoja en blanco y unos textos obligatorios: todo lo demás —cada forma, cada espacio, cada jerarquía— fue decisión mía.",
         etiquetas: ["Composición", "Dirección de arte", "Illustrator", "Vectorial"],
         historia: [
           { titulo: "El punto de partida",
-            texto: "El encargo traía solo los textos del evento: fecha, lugar, categorías, horarios e inscripción. Mucha información para un solo póster, y una marca enorme que tenía que mandar. Empecé con un moodboard de escalada, montaña y la identidad de The North Face para fijar el tono." },
+            texto: "El encargo traía solo los textos del evento: fecha, lugar, categorías, horarios e inscripción. Mucha información para una sola pieza, y una marca enorme que tenía que mandar. Empecé con un moodboard de escalada, montaña y la identidad de The North Face para fijar el tono." },
           { titulo: "Las reglas del juego",
             texto: "Elegí Helvetica Neue por su parecido con la tipografía de la marca, y una paleta de solo dos colores, amarillo #FDC74E y gris #191919: los tonos de sus prendas y su publicidad, que además generan un contraste fuerte y fácil de leer. Para ordenar tanta información trabajé sobre una retícula modular: clara, estable y fácil de manejar." },
           { titulo: "La composición cuenta una subida",
-            texto: "El póster se lee de abajo hacia arriba como una escalada. Abajo, un personaje mira hacia la cima; en el camino, las figuras geométricas de las presas de boulder sirven de apoyo; y arriba, otro escalador está a punto de llegar al logo, que se alza como la montaña. Cada categoría arranca con la forma característica del logo, para que la marca esté presente en todo el recorrido." },
+            texto: "La pieza entera cuenta una escalada. Arriba, el logo se alza como la cumbre y un escalador está a punto de alcanzarlo; a lo largo del recorrido, las figuras geométricas de las presas de boulder acompañan la lectura como puntos de apoyo; y al final, otro personaje mira hacia arriba, hacia todo lo que falta por subir. Cada categoría arranca con la forma característica del logo, para que la marca esté presente de principio a fin." },
           { titulo: "El resultado",
-            texto: "Un póster vertical, 100% vectorial en Illustrator, que ordena mucha información sin perder fuerza y que cierra con un llamado: «Es hora de desafiar la gravedad y alcanzar nuevas alturas». El proceso completo está en las diapositivas, y en la versión comentada explico cada decisión." }
+            texto: "Un email marketing vertical, 100% vectorial en Illustrator, que ordena mucha información sin perder fuerza y que cierra con un llamado: «Es hora de desafiar la gravedad y alcanzar nuevas alturas». Arriba están las diapositivas del proceso; aquí abajo, la pieza completa." }
         ],
         galerias: [
-          { titulo: "El póster", disposicion: "piezas", medios: [
-            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/anuncio-final.webp", alt: "Póster final · The North Face", alto: true },
-            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/anuncio-comentado.webp", alt: "Versión comentada · Cada decisión explicada", alto: true }
-          ] },
-          { titulo: "El proceso", disposicion: "presentacion", despues: true, medios: [
+          { titulo: "El proceso", disposicion: "presentacion", medios: [
             { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-1.webp", alt: "Portada · The North Face" },
             { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-2.webp", alt: "Moodboard" },
             { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-3.webp", alt: "Tipografía y paleta de color" },
             { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-4.webp", alt: "Retícula" },
             { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-5.webp", alt: "Elementos gráficos" }
+          ] },
+          { titulo: "El email marketing completo", disposicion: "completa", despues: true, medios: [
+            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/anuncio-final.webp", alt: "Email marketing · The North Face", alto: true }
           ] }
         ]
       },
@@ -206,8 +205,10 @@ const CARTAS = [
             texto: "El mismo contenido, ahora con un recorrido claro: marca, oferta, precio y contacto. Un anuncio que se siente apetitoso y profesional en lugar de saturado." }
         ],
         galerias: [
-          { titulo: "Antes y después", disposicion: "piezas", medios: [
-            { tipo: "imagen", src: "assets/proyectos/composicion/rediseno/original.webp", alt: "Antes · Anuncio original" },
+          { titulo: "Antes · El anuncio original", disposicion: "completa", ancho: 560, tras: 1, medios: [
+            { tipo: "imagen", src: "assets/proyectos/composicion/rediseno/original.webp", alt: "Antes · Anuncio original" }
+          ] },
+          { titulo: "Después · Mi rediseño", disposicion: "completa", ancho: 560, despues: true, medios: [
             { tipo: "imagen", src: "assets/proyectos/composicion/rediseno/rediseno.webp", alt: "Después · Mi rediseño" }
           ] }
         ]
@@ -230,11 +231,11 @@ const CARTAS = [
             texto: "La pieza de lanzamiento resuelve la intriga. La imagen se quiebra literalmente como un vidrio sobre una lluvia de billetes, y la jerarquía cambia: el título «Todo tiene un precio» y la fecha de estreno, 12/11/2025, pasan al frente. El quiebre visual es el nombre de la serie hecho imagen." }
         ],
         galerias: [
-          { titulo: "Expectativa", disposicion: "piezas", medios: [
+          { titulo: "Expectativa", disposicion: "completa", ancho: 560, tras: 3, medios: [
             { tipo: "imagen", src: "assets/proyectos/composicion/serie/expectativa-1.webp", alt: "Expectativa 1 · Esperanza, traición, venganza" },
             { tipo: "imagen", src: "assets/proyectos/composicion/serie/expectativa-2.webp", alt: "Expectativa 2 · Andresito" }
           ] },
-          { titulo: "Lanzamiento", disposicion: "piezas", medios: [
+          { titulo: "Lanzamiento", disposicion: "completa", ancho: 560, despues: true, medios: [
             { tipo: "imagen", src: "assets/proyectos/composicion/serie/lanzamiento.webp", alt: "Lanzamiento · Todo tiene un precio" }
           ] }
         ]

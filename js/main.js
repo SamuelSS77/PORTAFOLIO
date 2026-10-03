@@ -271,13 +271,24 @@ function jugadaHTML(p, n) {
   // "medios" es atajo de una sola galería; "galerias" permite varias con título y posición
   const galerias = p.galerias || (p.medios ? [{ medios: p.medios }] : []);
   const tags = (p.etiquetas || []).map((t) => `<li>${escapeHTML(t)}</li>`).join("");
-  const fases = (p.historia || []).map((f, i) => `
-    <li class="fase">
-      <span class="fase__num">${String(i + 1).padStart(2, "0")}</span>
-      <div><h5>${escapeHTML(f.titulo)}</h5><p>${escapeHTML(f.texto)}</p></div>
-    </li>`).join("");
-  const antes = galerias.filter((g) => !g.despues).map(galeriaHTML).join("");
-  const despues = galerias.filter((g) => g.despues).map(galeriaHTML).join("");
+  const historia = p.historia || [];
+  // posición de cada galería: "tras: n" = justo después de la fase n; "despues" = al final; si no, antes de la historia
+  const pos = (g) => g.tras || (g.despues ? historia.length : 0);
+  const galeriasEn = (n) => galerias.filter((g) => pos(g) === n).map(galeriaHTML).join("");
+
+  let cuerpo = galeriasEn(0);
+  let abiertas = "";
+  historia.forEach((f, i) => {
+    abiertas += `
+      <li class="fase">
+        <span class="fase__num">${String(i + 1).padStart(2, "0")}</span>
+        <div><h5>${escapeHTML(f.titulo)}</h5><p>${escapeHTML(f.texto)}</p></div>
+      </li>`;
+    const tras = galeriasEn(i + 1);
+    if (tras) { cuerpo += `<ol class="fases">${abiertas}</ol>${tras}`; abiertas = ""; }
+  });
+  if (abiertas) cuerpo += `<ol class="fases">${abiertas}</ol>`;
+  if (!historia.length) cuerpo += galerias.filter((g) => g.despues).map(galeriaHTML).join("");
 
   return `
     <article class="jugada">
@@ -288,14 +299,13 @@ function jugadaHTML(p, n) {
         ${tags ? `<ul class="tags">${tags}</ul>` : ""}
         ${p.link ? `<a class="jugada__link" href="${escapeHTML(p.link.url)}" target="_blank" rel="noopener">${escapeHTML(p.link.texto)} ↗</a>` : ""}
       </header>
-      ${antes}
-      ${fases ? `<ol class="fases">${fases}</ol>` : ""}
-      ${despues}
+      ${cuerpo}
     </article>`;
 }
 
 /* disposicion: "galeria" (por defecto: la 1ª grande + cuadrícula, con zoom al objeto),
-   "presentacion" (carrusel de diapositivas) o "piezas" (piezas gráficas completas, sin recortes) */
+   "presentacion" (carrusel de diapositivas), "piezas" (piezas gráficas lado a lado, sin recortes)
+   o "completa" (una debajo de otra, a todo el ancho, en tamaño grande) */
 function galeriaHTML(g) {
   const medios = g.medios || [];
   if (!medios.length) return "";
@@ -314,13 +324,13 @@ function galeriaHTML(g) {
         </div>
       </div>`;
   }
-  const cls = disp === "piezas"
-    ? "gallery gallery--piezas"
+  const cls = disp === "piezas" ? "gallery gallery--piezas"
+    : disp === "completa" ? "gallery gallery--completa"
     : medios.length > 1 ? "gallery" : "gallery gallery--single";
   return `
     <div class="gallery-block">
       ${titulo}
-      <div class="${cls}" data-galeria>${medios.map(mediaHTML).join("")}</div>
+      <div class="${cls}" data-galeria${g.ancho ? ` style="--max: ${Number(g.ancho)}px"` : ""}>${medios.map(mediaHTML).join("")}</div>
     </div>`;
 }
 
@@ -345,9 +355,10 @@ function mediaHTML(m) {
   if (m.tipo === "video") {
     // sin sonido + playsinline = autoplay permitido en todos los navegadores (también iPhone)
     return `
-      <div class="media media--video">
+      <div class="media media--video" role="button" tabindex="0" data-video="${escapeHTML(m.src)}"
+        data-poster="${escapeHTML(m.poster || "")}" data-alt="${alt}" aria-label="Ver en grande: ${alt}">
         <video muted loop playsinline preload="none" data-src="${escapeHTML(m.src)}"
-          ${m.poster ? `poster="${escapeHTML(m.poster)}"` : ""} aria-label="${alt}"
+          ${m.poster ? `poster="${escapeHTML(m.poster)}"` : ""} aria-hidden="true"
           ${reduceMotion ? "controls" : ""}></video>
       </div>`;
   }
@@ -388,7 +399,7 @@ function setupMedia(scope) {
   }, { root: $("#summon"), threshold: 0.25 });
 
   scope.querySelectorAll(".media--video video").forEach((v) => {
-    v.addEventListener("error", () => mediaPlaceholder(v.closest(".media"), v.getAttribute("aria-label")), { once: true });
+    v.addEventListener("error", () => mediaPlaceholder(v.closest(".media"), v.closest(".media").dataset.alt), { once: true });
     videoObserver.observe(v);
   });
 }
@@ -400,10 +411,26 @@ function setupViewer() {
   let list = [];
   let i = 0;
 
+  const video = $("#viewerVideo");
+
   const show = (n) => {
     i = (n + list.length) % list.length;
-    img.src = list[i].dataset.full;
-    img.alt = list[i].dataset.alt;
+    const item = list[i];
+    const esVideo = "video" in item.dataset;
+    img.hidden = esVideo;
+    video.hidden = !esVideo;
+    if (esVideo) {
+      img.removeAttribute("src");
+      video.poster = item.dataset.poster;
+      video.src = item.dataset.video;
+      if (!reduceMotion) video.play().catch(() => {});
+      video.controls = reduceMotion;
+    } else {
+      video.pause();
+      video.removeAttribute("src");
+      img.src = item.dataset.full;
+      img.alt = item.dataset.alt;
+    }
     $("#viewerCaption").textContent = `${list[i].dataset.alt} · ${i + 1} de ${list.length}`;
     viewer.classList.toggle("is-single", list.length < 2);
     // piezas muy altas (pósters): se ven a lo ancho y se recorren con scroll
@@ -411,13 +438,21 @@ function setupViewer() {
     viewer.scrollTop = 0;
   };
 
-  $("#summonPlays").addEventListener("click", (e) => {
-    const btn = e.target.closest(".media--img");
-    if (!btn) return;
-    list = [...btn.closest("[data-galeria]").querySelectorAll(".media--img")];
-    show(list.indexOf(btn));
+  // un clic en cualquier foto, diapositiva o video lo abre en grande
+  const abrir = (item) => {
+    list = [...item.closest("[data-galeria]").querySelectorAll(".media--img, .media--video")];
+    show(list.indexOf(item));
     viewer.showModal();
+  };
+  $("#summonPlays").addEventListener("click", (e) => {
+    const item = e.target.closest(".media--img, .media--video");
+    if (item) abrir(item);
   });
+  $("#summonPlays").addEventListener("keydown", (e) => {
+    const item = e.target.closest(".media--video");
+    if (item && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); abrir(item); }
+  });
+  viewer.addEventListener("close", () => video.pause());
   $("#viewerPrev").addEventListener("click", () => show(i - 1));
   $("#viewerNext").addEventListener("click", () => show(i + 1));
   $("#viewerClose").addEventListener("click", () => viewer.close());
