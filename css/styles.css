@@ -461,6 +461,7 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
     font-size: clamp(48px, min(11vw, 17svh), 160px);
   }
   .hero__hola { font-size: clamp(72px, min(16vw, 24svh), 230px); }
+  .hero__soy, .hero__name { margin-top: 7%; }   /* más cerca del HOLA */
   .hero__bottom {
     /* más ancho que el contenido, sin pisar las cartas laterales (hasta 1560px) */
     margin-inline: min(0px, calc((100% - min(79vw - 48px, 1560px)) / 2));
