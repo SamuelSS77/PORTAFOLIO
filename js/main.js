@@ -356,9 +356,10 @@ function mediaHTML(m) {
     // sin sonido + playsinline = autoplay permitido en todos los navegadores (también iPhone)
     return `
       <div class="media media--video" role="button" tabindex="0" data-video="${escapeHTML(m.src)}"
-        data-poster="${escapeHTML(m.poster || "")}" data-alt="${alt}" aria-label="Ver en grande: ${alt}">
-        <video muted loop playsinline preload="none" data-src="${escapeHTML(m.src)}"
-          ${m.poster ? `poster="${escapeHTML(m.poster)}"` : ""} aria-hidden="true"
+        data-poster="${escapeHTML(m.poster || "")}" data-alt="${alt}" aria-label="Ver en grande: ${alt}"
+        ${m.poster ? `style="background-image: url('${escapeHTML(m.poster)}')"` : ""}>
+        <!-- la portada va como fondo: el atributo poster se estira en lugar de recortarse -->
+        <video muted loop playsinline preload="none" data-src="${escapeHTML(m.src)}" aria-hidden="true"
           ${reduceMotion ? "controls" : ""}></video>
       </div>`;
   }

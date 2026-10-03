@@ -446,9 +446,7 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
 }
 .media img, .media video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .media--img { padding: 0; cursor: zoom-in; font: inherit; }
-/* videos: respetan su proporción (los de animación son cuadrados), sin recortes */
-.media--video { aspect-ratio: auto; display: flex; justify-content: center; }
-.media--video video { width: auto; max-width: 100%; height: auto; max-height: min(480px, 70vh); aspect-ratio: 1; object-fit: contain; }
+/* videos: recuadro 16:9 como el resto (al agrandarlos con un clic se ven completos) */
 /* zoom hacia el objeto (los renders tienen mucho fondo); en el visor se ven completos */
 .media--img { --z: 1.5; }
 .gallery > .media--img:first-child { --z: 1.25; }
@@ -492,7 +490,7 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
 .gallery--completa .media--img:hover img { transform: scale(1.015); }
 .gallery--completa .media--ph { aspect-ratio: 4 / 5; }
 .gallery--completa .media__cap { top: 12px; bottom: auto; left: 12px; font-size: 13px; }
-.media--video { cursor: zoom-in; }
+.media--video { cursor: zoom-in; background: #0b0912 center / cover no-repeat; }
 .media--video:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
 /* piezas muy altas: se muestra la parte de arriba y se invita a verla completa */
