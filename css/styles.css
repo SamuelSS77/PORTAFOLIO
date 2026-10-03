@@ -166,6 +166,7 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
 .hero__clase { margin: 0; font-size: clamp(18px, 2.4vw, 28px); font-weight: 500; }
 .hero__uni { margin: 4px 0 0; font-size: clamp(15px, 1.6vw, 18px); color: var(--text); opacity: .85; }
 .hero__semestre { margin: 2px 0 0; font-size: 14px; color: var(--muted); }
+.hero__bottom .btn { font-size: clamp(17px, 1.4vw, 24px); padding: .85em 2.2em; }
 
 /* cartas decorativas flotando al fondo */
 .hero__float { --w: clamp(80px, 8.5vw, 150px); opacity: .3; }
