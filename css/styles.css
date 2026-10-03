@@ -56,12 +56,12 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
   padding: 14px clamp(16px, 4vw, 48px);
   background: color-mix(in srgb, var(--bg) 80%, transparent);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line);
 }
 .nav__links { display: flex; justify-content: space-between; gap: 16px; width: 100%; max-width: 1104px; }
 .nav__links a {
   position: relative; padding: 4px 0;
-  color: var(--muted); text-decoration: none; font-size: 15px; letter-spacing: .08em;
+  color: var(--text); text-decoration: none; font-size: clamp(16px, 1.25vw, 19px); font-weight: 600; letter-spacing: .08em;
+  text-shadow: 0 0 18px #b46cff55;
   transition: color .25s, text-shadow .25s;
 }
 .nav__links a::after {
@@ -483,7 +483,7 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
   .hero__float--2, .hero__float--5 { display: none; }
 }
 @media (max-width: 560px) {
-  .nav__links a { font-size: 14px; letter-spacing: .03em; }
+  .nav__links a { font-size: 15px; letter-spacing: .04em; }
   .hero__line { gap: 6px; --s: 240px; font-size: 38px; }
   .hero__avatar { margin-inline: -14px; }   /* aprovecha el borde transparente del PNG */
   /* en móvil solo 2 cartas asomando por los bordes, para no tapar el texto */
