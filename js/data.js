@@ -81,10 +81,64 @@ const CARTAS = [
         desc: "Ilumina y materializa la escena con acabado fotorrealista." }
     ],
     lema: "«Donde otros ven un cubo gris, yo veo un mundo esperando existir.»",
+    /* Jugadas con historia:
+       grupo     -> agrupa las jugadas bajo un subtítulo dentro de la carta
+       historia  -> fases de la historia (título + texto)
+       medios    -> { tipo: "imagen", src, alt }  o  { tipo: "video", src (mp4), poster (jpg/webp), alt }
+       Si el archivo aún no existe, se muestra un recuadro "pendiente" en su lugar. */
     proyectos: [
-      { titulo: "Proyecto 3D 01", imagen: "", desc: "Descripción breve del proyecto.", link: "" },
-      { titulo: "Proyecto 3D 02", imagen: "", desc: "Descripción breve del proyecto.", link: "" },
-      { titulo: "Proyecto 3D 03", imagen: "", desc: "Descripción breve del proyecto.", link: "" }
+      {
+        grupo: "Props",
+        titulo: "Seguro educativo",
+        contexto: "Hackathon · Global Seguros",
+        resumen: "¿Cómo se ve una promesa? En esta hackathon tuve que convertir un seguro educativo —algo que no se puede tocar— en objetos 3D que lo contaran sin palabras.",
+        etiquetas: ["Blender", "Modelado", "Props", "Render"],
+        historia: [
+          { titulo: "El reto",
+            texto: "Global Seguros planteó un desafío: representar su seguro educativo a través de props. Un seguro no tiene forma, así que el trabajo era encontrarle una que cualquiera pudiera reconocer de un vistazo." },
+          { titulo: "La idea",
+            texto: "Partí de objetos que todos asociamos con estudiar y los combiné con señales de protección y de futuro. Cada prop cuenta una parte de la misma promesa: que el camino educativo esté asegurado." },
+          { titulo: "El proceso",
+            texto: "Bocetos rápidos para fijar las siluetas, modelado en Blender, materiales y luz pensados para que todos los props se sintieran parte de una misma familia, y render final. Con el reloj de la hackathon encima, prioricé formas claras y una paleta coherente." },
+          { titulo: "El resultado",
+            texto: "Cinco props listos para presentar, que traducen un producto financiero en algo cercano, amable y fácil de entender." }
+        ],
+        medios: [
+          { tipo: "imagen", src: "assets/proyectos/3d/seguro-educativo/render-1.webp", alt: "Render 1 · Seguro educativo" },
+          { tipo: "imagen", src: "assets/proyectos/3d/seguro-educativo/render-2.webp", alt: "Render 2 · Seguro educativo" },
+          { tipo: "imagen", src: "assets/proyectos/3d/seguro-educativo/render-3.webp", alt: "Render 3 · Seguro educativo" },
+          { tipo: "imagen", src: "assets/proyectos/3d/seguro-educativo/render-4.webp", alt: "Render 4 · Seguro educativo" },
+          { tipo: "imagen", src: "assets/proyectos/3d/seguro-educativo/render-5.webp", alt: "Render 5 · Seguro educativo" }
+        ]
+      },
+      {
+        grupo: "Animaciones",
+        titulo: "La pelota que rebota",
+        contexto: "Clase de modelado 3D",
+        resumen: "El primer hechizo de todo animador: darle vida a una pelota.",
+        etiquetas: ["Blender", "Animación", "Timing"],
+        historia: [
+          { titulo: "Por qué una pelota",
+            texto: "Parece el ejercicio más simple, pero en un solo rebote caben los principios de la animación: el peso que la hace caer, el squash & stretch al tocar el suelo, el timing que acelera y frena, y los arcos que dibuja en el aire. Si la pelota no se siente real, nada de lo que venga después lo hará." }
+        ],
+        medios: [
+          { tipo: "video", src: "assets/proyectos/3d/animacion/pelota.mp4", poster: "assets/proyectos/3d/animacion/pelota.webp", alt: "Animación de una pelota rebotando" }
+        ]
+      },
+      {
+        grupo: "Animaciones",
+        titulo: "Personaje en movimiento",
+        contexto: "Clase de modelado 3D",
+        resumen: "Del rebote a la intención: cuando lo que se mueve tiene que parecer que piensa.",
+        etiquetas: ["Blender", "Animación", "Personaje"],
+        historia: [
+          { titulo: "El siguiente nivel",
+            texto: "Con las bases de la pelota dominadas, el reto fue un personaje. Aquí ya no basta con que algo caiga bien: cada pose tiene que comunicar. Trabajé poses clave, anticipación antes de cada acción y el seguimiento del cuerpo después de ella, para que el movimiento se leyera como una decisión y no como un mecanismo." }
+        ],
+        medios: [
+          { tipo: "video", src: "assets/proyectos/3d/animacion/personaje.mp4", poster: "assets/proyectos/3d/animacion/personaje.webp", alt: "Animación de un personaje" }
+        ]
+      }
     ]
   },
   {

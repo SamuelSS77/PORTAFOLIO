@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=10">
+  <link rel="stylesheet" href="css/styles.css?v=11">
 </head>
 <body>
 
@@ -140,6 +140,17 @@
     </div>
   </dialog>
 
+  <!-- VISOR (renders en grande) -->
+  <dialog class="viewer" id="viewer" aria-label="Imagen en grande">
+    <button class="summon__close viewer__close" id="viewerClose" aria-label="Cerrar">✕</button>
+    <button class="viewer__nav viewer__nav--prev" id="viewerPrev" aria-label="Anterior">‹</button>
+    <figure class="viewer__fig">
+      <img id="viewerImg" alt="">
+      <figcaption id="viewerCaption"></figcaption>
+    </figure>
+    <button class="viewer__nav viewer__nav--next" id="viewerNext" aria-label="Siguiente">›</button>
+  </dialog>
+
   <!-- INVOCACIÓN (detalle de carta) -->
   <dialog class="summon" id="summon" aria-labelledby="summonTitle">
     <button class="summon__close" id="summonClose" aria-label="Cerrar">✕</button>
@@ -150,12 +161,12 @@
         <h2 id="summonTitle"></h2>
         <p class="summon__subtitle" id="summonSubtitle"></p>
         <h3 class="summon__heading">Jugadas (proyectos)</h3>
-        <div class="plays" id="summonPlays"></div>
+        <div id="summonPlays"></div>
       </div>
     </div>
   </dialog>
 
-  <script src="js/data.js?v=10"></script>
-  <script src="js/main.js?v=10"></script>
+  <script src="js/data.js?v=11"></script>
+  <script src="js/main.js?v=11"></script>
 </body>
 </html>

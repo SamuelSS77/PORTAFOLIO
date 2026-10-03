@@ -218,26 +218,159 @@ function summon(id) {
   $("#summonTitle").textContent = c.nombre;
   $("#summonSubtitle").textContent = `${c.titulo} · ${RAREZAS[c.rareza].nombre} · ${c.nivel}★ de 5`;
 
-  $("#summonPlays").innerHTML = c.proyectos.length
-    ? c.proyectos.map((p) => {
-        const img = p.imagen
-          ? `<img src="${escapeHTML(p.imagen)}" alt="${escapeHTML(p.titulo)}" loading="lazy">`
-          : `<span class="play__ph">${ELEMENTOS[c.elemento].icono}</span>`;
-        const title = p.link
-          ? `<a href="${escapeHTML(p.link)}" target="_blank" rel="noopener">${escapeHTML(p.titulo)} ↗</a>`
-          : escapeHTML(p.titulo);
-        return `
-          <article class="play">
-            <div class="play__media">${img}</div>
-            <h4>${title}</h4>
-            <p>${escapeHTML(p.desc)}</p>
-          </article>`;
-      }).join("")
+  const plays = $("#summonPlays");
+  plays.innerHTML = c.proyectos.length
+    ? playsHTML(c)
     : `<p class="plays__empty">Aún no hay jugadas registradas para esta carta.</p>`;
+  setupMedia(plays);
 
   const dialog = $("#summon");
   dialog.showModal();
   dialog.scrollTop = 0;
+}
+
+/* Jugadas: las que tienen historia o medios se muestran completas;
+   las simples (imagen + desc) como tarjetas pequeñas */
+function playsHTML(c) {
+  let grupo = null;
+  let n = 0;
+  const simples = [];
+  let html = "";
+
+  c.proyectos.forEach((p) => {
+    if (!p.historia && !p.medios) { simples.push(p); return; }
+    n++;
+    if (p.grupo && p.grupo !== grupo) {
+      grupo = p.grupo;
+      html += `<h3 class="summon__group">${escapeHTML(grupo)}</h3>`;
+    }
+    html += jugadaHTML(p, n);
+  });
+
+  if (simples.length) {
+    html += `<div class="plays">${simples.map((p) => {
+      const img = p.imagen
+        ? `<img src="${escapeHTML(p.imagen)}" alt="${escapeHTML(p.titulo)}" loading="lazy">`
+        : `<span class="play__ph">${ELEMENTOS[c.elemento].icono}</span>`;
+      const title = p.link
+        ? `<a href="${escapeHTML(p.link)}" target="_blank" rel="noopener">${escapeHTML(p.titulo)} ↗</a>`
+        : escapeHTML(p.titulo);
+      return `
+        <article class="play">
+          <div class="play__media">${img}</div>
+          <h4>${title}</h4>
+          <p>${escapeHTML(p.desc)}</p>
+        </article>`;
+    }).join("")}</div>`;
+  }
+  return html;
+}
+
+function jugadaHTML(p, n) {
+  const medios = p.medios || [];
+  const tags = (p.etiquetas || []).map((t) => `<li>${escapeHTML(t)}</li>`).join("");
+  const fases = (p.historia || []).map((f, i) => `
+    <li class="fase">
+      <span class="fase__num">${String(i + 1).padStart(2, "0")}</span>
+      <div><h5>${escapeHTML(f.titulo)}</h5><p>${escapeHTML(f.texto)}</p></div>
+    </li>`).join("");
+  const galeria = medios.length > 1 ? "gallery" : "gallery gallery--single";
+
+  return `
+    <article class="jugada">
+      <header class="jugada__head">
+        <p class="eyebrow">Jugada ${String(n).padStart(2, "0")}${p.contexto ? ` · ${escapeHTML(p.contexto)}` : ""}</p>
+        <h4 class="jugada__title">${escapeHTML(p.titulo)}</h4>
+        ${p.resumen ? `<p class="jugada__lead">${escapeHTML(p.resumen)}</p>` : ""}
+        ${tags ? `<ul class="tags">${tags}</ul>` : ""}
+      </header>
+      ${medios.length ? `<div class="${galeria}">${medios.map(mediaHTML).join("")}</div>` : ""}
+      ${fases ? `<ol class="fases">${fases}</ol>` : ""}
+    </article>`;
+}
+
+function mediaHTML(m) {
+  const alt = escapeHTML(m.alt || "");
+  if (m.tipo === "video") {
+    // sin sonido + playsinline = autoplay permitido en todos los navegadores (también iPhone)
+    return `
+      <div class="media media--video">
+        <video muted loop playsinline preload="none" data-src="${escapeHTML(m.src)}"
+          ${m.poster ? `poster="${escapeHTML(m.poster)}"` : ""} aria-label="${alt}"
+          ${reduceMotion ? "controls" : ""}></video>
+      </div>`;
+  }
+  return `
+    <button class="media media--img" type="button" data-full="${escapeHTML(m.src)}" data-alt="${alt}" aria-label="Ver en grande: ${alt}">
+      <img src="${escapeHTML(m.src)}" alt="${alt}" loading="lazy" decoding="async">
+    </button>`;
+}
+
+// recuadro "pendiente" cuando el archivo aún no existe
+function mediaPlaceholder(el, alt) {
+  const ph = document.createElement("div");
+  ph.className = "media media--ph";
+  ph.innerHTML = `<span>${escapeHTML(alt.split(" · ")[0])}</span><small>Pendiente</small>`;
+  el.replaceWith(ph);
+}
+
+let videoObserver;
+function setupMedia(scope) {
+  scope.querySelectorAll(".media--img img").forEach((img) => {
+    const fail = () => mediaPlaceholder(img.closest(".media"), img.alt);
+    if (img.complete && img.naturalWidth === 0) fail();
+    else img.addEventListener("error", fail, { once: true });
+  });
+
+  // los videos se cargan y reproducen solo mientras se ven (ahorra datos y batería)
+  videoObserver?.disconnect();
+  videoObserver = new IntersectionObserver((entries) => {
+    entries.forEach(({ target: v, isIntersecting }) => {
+      if (isIntersecting) {
+        if (!v.src) v.src = v.dataset.src;
+        if (!reduceMotion) v.play().catch(() => {});
+      } else {
+        v.pause();
+      }
+    });
+  }, { root: $("#summon"), threshold: 0.25 });
+
+  scope.querySelectorAll(".media--video video").forEach((v) => {
+    v.addEventListener("error", () => mediaPlaceholder(v.closest(".media"), v.getAttribute("aria-label")), { once: true });
+    videoObserver.observe(v);
+  });
+}
+
+/* ---------- Visor de imágenes en grande ---------- */
+function setupViewer() {
+  const viewer = $("#viewer");
+  const img = $("#viewerImg");
+  let list = [];
+  let i = 0;
+
+  const show = (n) => {
+    i = (n + list.length) % list.length;
+    img.src = list[i].dataset.full;
+    img.alt = list[i].dataset.alt;
+    $("#viewerCaption").textContent = `${list[i].dataset.alt} · ${i + 1} de ${list.length}`;
+    viewer.classList.toggle("is-single", list.length < 2);
+  };
+
+  $("#summonPlays").addEventListener("click", (e) => {
+    const btn = e.target.closest(".media--img");
+    if (!btn) return;
+    list = [...btn.closest(".gallery").querySelectorAll(".media--img")];
+    show(list.indexOf(btn));
+    viewer.showModal();
+  });
+  $("#viewerPrev").addEventListener("click", () => show(i - 1));
+  $("#viewerNext").addEventListener("click", () => show(i + 1));
+  $("#viewerClose").addEventListener("click", () => viewer.close());
+  viewer.addEventListener("click", (e) => { if (e.target === viewer) viewer.close(); });
+  viewer.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") show(i - 1);
+    if (e.key === "ArrowRight") show(i + 1);
+  });
 }
 
 function setupSummon() {
@@ -247,9 +380,12 @@ function setupSummon() {
   dialog.addEventListener("click", (e) => {
     if (e.target === dialog) dialog.close();
   });
+  // al cerrar, detener los videos
+  dialog.addEventListener("close", () => dialog.querySelectorAll("video").forEach((v) => v.pause()));
 }
 
 renderMaestro();
 renderReglas();
 renderMazo();
 setupSummon();
+setupViewer();
