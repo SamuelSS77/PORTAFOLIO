@@ -459,8 +459,11 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
   .hero__line {
     --s: inherit;
     align-items: flex-start;
+    gap: 0;
     font-size: clamp(48px, min(11vw, 17svh), 160px);
   }
+  /* "Soy" y "Samu" más pegados al rostro (el PNG tiene borde transparente a los lados) */
+  .hero__avatar { margin-inline: calc(var(--s) * -0.04); }
   .hero__hola { font-size: clamp(72px, min(16vw, 24svh), 230px); }
   /* "Soy Samu" anclado justo debajo del HOLA (la línea empieza 0.24·s por encima de su borde inferior) */
   .hero__soy, .hero__name { margin-top: calc(var(--s) * .24 + .1em); }
