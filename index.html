@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Samu · Portafolio</title>
+  <meta name="description" content="Portafolio de creador digital contado como un mazo de cartas: cada carta es una skill.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <header class="nav">
+    <nav class="nav__links" aria-label="Secciones">
+      <a href="#arena">Home</a>
+      <a href="#mazo">Work</a>
+      <a href="#maestro">About</a>
+      <a href="#duelo">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- I. LA ARENA (portada) -->
+    <section id="arena" class="hero">
+      <div class="hero__decor" aria-hidden="true">
+        <div class="card-back hero__float hero__float--l"></div>
+        <div class="card-back hero__float hero__float--r"></div>
+      </div>
+
+      <h1 class="hero__title">
+        <span class="hero__hola">Hola</span>
+        <span class="hero__line">
+          <span class="hero__soy">Soy</span>
+          <span class="hero__avatar" id="heroAvatar"></span>
+          <span class="hero__name" data-maestro="nombre">Samu</span>
+        </span>
+      </h1>
+
+      <div class="hero__bottom">
+        <div class="hero__role">
+          <p class="eyebrow" data-maestro="alias">El Maestro de Cartas</p>
+          <p class="hero__clase" data-maestro="clase">Estudiante de Creación Digital</p>
+          <p class="hero__uni" data-maestro="universidad">Universidad El Bosque</p>
+          <p class="hero__semestre" data-maestro="semestre">4° semestre</p>
+        </div>
+        <a href="#duelo" class="btn btn--gold">Contáctame</a>
+      </div>
+    </section>
+
+    <!-- II. EL MAESTRO (sobre mí) -->
+    <section id="maestro" class="section">
+      <p class="eyebrow">Capítulo II · El Maestro</p>
+      <h2 class="section__title">Prólogo</h2>
+      <div class="maestro">
+        <article class="trainer" aria-label="Carta del Maestro">
+          <div class="trainer__top">
+            <span class="trainer__tag">Maestro</span>
+            <span class="trainer__lvl">Nv. <b data-maestro="nivel">12</b></span>
+          </div>
+          <div class="trainer__photo" id="trainerPhoto"></div>
+          <h3 class="trainer__name" data-maestro="nombre">Tu Nombre</h3>
+          <dl class="trainer__info">
+            <div><dt>Clase</dt><dd data-maestro="clase">Creador Digital</dd></div>
+            <div><dt>Origen</dt><dd data-maestro="origen">Ciudad, País</dd></div>
+            <div><dt>Cartas</dt><dd id="trainerCount">0</dd></div>
+          </dl>
+        </article>
+        <div class="maestro__text" id="prologo"></div>
+      </div>
+    </section>
+
+    <!-- III. LAS REGLAS (cómo leer las cartas) -->
+    <section id="reglas" class="section">
+      <p class="eyebrow">Capítulo III · Las Reglas</p>
+      <h2 class="section__title">Cómo leer mis cartas</h2>
+      <div class="rules">
+        <div class="rule">
+          <h3>Rareza = Dominio</h3>
+          <ul class="rule__list" id="rulesRareza"></ul>
+        </div>
+        <div class="rule">
+          <h3>Estrellas = Experiencia</h3>
+          <p>De <span class="stars">★</span> a <span class="stars">★★★★★★★★★★</span>. Tiempo y proyectos acumulados usando esa skill.</p>
+          <h3>Habilidades = Herramientas</h3>
+          <p>Las técnicas y programas con los que ejecuto la skill. El número indica su poder (qué tan fuerte la tengo).</p>
+        </div>
+        <div class="rule">
+          <h3>Estadísticas</h3>
+          <ul class="rule__list" id="rulesStats"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- IV. EL MAZO (skills) -->
+    <section id="mazo" class="section">
+      <p class="eyebrow">Capítulo IV · El Mazo</p>
+      <h2 class="section__title">Mis cartas</h2>
+      <p class="section__lead">Toca una carta para invocarla y ver las jugadas que la respaldan.</p>
+      <div class="deck" id="deck"></div>
+    </section>
+
+    <!-- V. EL DUELO (contacto) -->
+    <section id="duelo" class="section duelo">
+      <p class="eyebrow">Capítulo V · El Duelo</p>
+      <h2 class="section__title">¿Aceptas el reto?</h2>
+      <p class="section__lead">Si tienes un proyecto, tráelo a la mesa. Elegiré las cartas correctas para ganarlo juntos.</p>
+      <a class="btn btn--gold" id="contactMail" href="mailto:">Retar al Maestro</a>
+      <ul class="socials" id="socials"></ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> <span data-maestro="nombre">Tu Nombre</span> · Set: Origen</p>
+  </footer>
+
+  <!-- INVOCACIÓN (detalle de carta) -->
+  <dialog class="summon" id="summon" aria-labelledby="summonTitle">
+    <button class="summon__close" id="summonClose" aria-label="Cerrar">✕</button>
+    <div class="summon__body">
+      <div class="summon__card" id="summonCard"></div>
+      <div class="summon__info">
+        <p class="eyebrow">Carta invocada</p>
+        <h2 id="summonTitle"></h2>
+        <p class="summon__subtitle" id="summonSubtitle"></p>
+        <h3 class="summon__heading">Jugadas (proyectos)</h3>
+        <div class="plays" id="summonPlays"></div>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
