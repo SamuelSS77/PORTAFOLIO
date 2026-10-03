@@ -174,7 +174,8 @@ function cardHTML(c, { facedown = false } = {}) {
   }
   return `
     <button class="card card--${c.rareza} card--el-${c.elemento} ${facedown ? "is-facedown" : ""}"
-            data-id="${c.id}" aria-label="Invocar carta ${escapeHTML(c.nombre)}">
+            data-id="${c.id}" data-nombre="${escapeHTML(c.nombre)}"
+            aria-label="${facedown ? "Carta boca abajo: voltéala" : `Invocar carta ${escapeHTML(c.nombre)}`}">
       <div class="card__inner">
         ${cardFront(c)}
         <div class="card__face card__back card-back"></div>
@@ -184,24 +185,25 @@ function cardHTML(c, { facedown = false } = {}) {
 
 function renderMazo() {
   const deck = $("#deck");
-  deck.innerHTML = CARTAS.map((c) => cardHTML(c, { facedown: !reduceMotion })).join("");
+  deck.innerHTML = CARTAS.map((c) => cardHTML(c, { facedown: true })).join("");
+
+  // Las cartas empiezan boca abajo: el hover (o un toque en celular) las voltea,
+  // y solo cuando ya están volteadas un clic las invoca
+  const FLIP_MS = reduceMotion ? 0 : 800;   // duración del giro en el CSS (.card__inner)
+  const voltear = (el) => {
+    if (!el.classList.contains("is-facedown")) return;
+    el.classList.remove("is-facedown");
+    el.setAttribute("aria-label", `Invocar carta ${el.dataset.nombre}`);
+    setTimeout(() => { el.dataset.lista = ""; }, FLIP_MS);
+  };
 
   deck.querySelectorAll(".card[data-id]").forEach((el) => {
-    el.addEventListener("click", () => summon(el.dataset.id));
+    el.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") voltear(el); });
+    el.addEventListener("click", () => {
+      if (!("lista" in el.dataset)) { voltear(el); return; }   // boca abajo o girando: aún no se invoca
+      summon(el.dataset.id);
+    });
   });
-
-  // "Robar cartas": se voltean una a una al entrar en pantalla
-  if (!reduceMotion) {
-    const observer = new IntersectionObserver((entries) => {
-      entries
-        .filter((entry) => entry.isIntersecting)
-        .forEach((entry, i) => {
-          setTimeout(() => entry.target.classList.remove("is-facedown"), 250 + i * 280);
-          observer.unobserve(entry.target);
-        });
-    }, { threshold: 0.4 });
-    deck.querySelectorAll(".is-facedown").forEach((card) => observer.observe(card));
-  }
 
   enableTilt(deck);
 }

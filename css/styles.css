@@ -295,6 +295,7 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
   transition: transform .2s ease-out;
 }
 .card:focus-visible { outline: 3px solid var(--gold); outline-offset: 6px; border-radius: var(--radius); }
+.card.is-facedown { cursor: default; }
 .card--rara { --rarity: var(--r-rara); }
 .card--epica { --rarity: var(--r-epica); }
 .card--legendaria { --rarity: var(--r-legendaria); }
