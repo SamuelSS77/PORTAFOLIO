@@ -286,6 +286,7 @@ function jugadaHTML(p, n) {
         <h4 class="jugada__title">${escapeHTML(p.titulo)}</h4>
         ${p.resumen ? `<p class="jugada__lead">${escapeHTML(p.resumen)}</p>` : ""}
         ${tags ? `<ul class="tags">${tags}</ul>` : ""}
+        ${p.link ? `<a class="jugada__link" href="${escapeHTML(p.link.url)}" target="_blank" rel="noopener">${escapeHTML(p.link.texto)} ↗</a>` : ""}
       </header>
       ${antes}
       ${fases ? `<ol class="fases">${fases}</ol>` : ""}
@@ -351,7 +352,7 @@ function mediaHTML(m) {
       </div>`;
   }
   return `
-    <button class="media media--img" type="button" data-full="${escapeHTML(m.src)}" data-alt="${alt}" aria-label="Ver en grande: ${alt}">
+    <button class="media media--img${m.alto ? " media--tall" : ""}" type="button" data-full="${escapeHTML(m.src)}" data-alt="${alt}" aria-label="Ver en grande: ${alt}">
       <img src="${escapeHTML(m.src)}" alt="${alt}" decoding="async">
       ${m.alt ? `<span class="media__cap">${escapeHTML(m.alt.split(" · ")[0])}</span>` : ""}
     </button>`;
@@ -405,6 +406,9 @@ function setupViewer() {
     img.alt = list[i].dataset.alt;
     $("#viewerCaption").textContent = `${list[i].dataset.alt} · ${i + 1} de ${list.length}`;
     viewer.classList.toggle("is-single", list.length < 2);
+    // piezas muy altas (pósters): se ven a lo ancho y se recorren con scroll
+    viewer.classList.toggle("is-tall", list[i].classList.contains("media--tall"));
+    viewer.scrollTop = 0;
   };
 
   $("#summonPlays").addEventListener("click", (e) => {

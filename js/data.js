@@ -161,57 +161,81 @@ const CARTAS = [
     proyectos: [
       {
         grupo: "Publicidad",
-        titulo: "The North Face: un anuncio desde cero",
-        contexto: "Clase de composición",
-        resumen: "Una hoja en blanco, unos textos obligatorios y una marca enorme. Todo lo demás —cada forma, cada espacio, cada jerarquía— fue decisión mía.",
+        titulo: "The North Face: ¡Atención, escaladores!",
+        contexto: "Composición Plástica · UEB",
+        resumen: "Un póster para el 2º Campeonato Nacional de Escalada en Bloque en Sogamoso, Boyacá. Partí de una hoja en blanco y unos textos obligatorios: todo lo demás —cada forma, cada espacio, cada jerarquía— fue decisión mía.",
         etiquetas: ["Composición", "Dirección de arte", "Illustrator", "Vectorial"],
         historia: [
           { titulo: "El punto de partida",
-            texto: "El encargo traía solo los textos que debía usar; el resto estaba por construir. The North Face vende algo más que ropa: la sensación de estar frente a lo imposible, y el anuncio tenía que transmitirlo." },
-          { titulo: "La decisión clave",
-            texto: "Con libertad total, fijé una prioridad desde el principio: el logo manda. La composición se organizó para que la mirada llegara a la marca y que todo lo demás la acompañara sin competir con ella." },
-          { titulo: "La construcción",
-            texto: "Lo trabajé en Adobe Illustrator, totalmente en vectorial. Distribuí los textos según su importancia, equilibré pesos y espacios vacíos y cuidé el recorrido visual para que el mensaje se leyera en el orden correcto." },
+            texto: "El encargo traía solo los textos del evento: fecha, lugar, categorías, horarios e inscripción. Mucha información para un solo póster, y una marca enorme que tenía que mandar. Empecé con un moodboard de escalada, montaña y la identidad de The North Face para fijar el tono." },
+          { titulo: "Las reglas del juego",
+            texto: "Elegí Helvetica Neue por su parecido con la tipografía de la marca, y una paleta de solo dos colores, amarillo #FDC74E y gris #191919: los tonos de sus prendas y su publicidad, que además generan un contraste fuerte y fácil de leer. Para ordenar tanta información trabajé sobre una retícula modular: clara, estable y fácil de manejar." },
+          { titulo: "La composición cuenta una subida",
+            texto: "El póster se lee de abajo hacia arriba como una escalada. Abajo, un personaje mira hacia la cima; en el camino, las figuras geométricas de las presas de boulder sirven de apoyo; y arriba, otro escalador está a punto de llegar al logo, que se alza como la montaña. Cada categoría arranca con la forma característica del logo, para que la marca esté presente en todo el recorrido." },
           { titulo: "El resultado",
-            texto: "Un anuncio limpio, escalable a cualquier tamaño, donde la marca es la protagonista. El contexto y el proceso completo, paso a paso, están en las diapositivas." }
+            texto: "Un póster vertical, 100% vectorial en Illustrator, que ordena mucha información sin perder fuerza y que cierra con un llamado: «Es hora de desafiar la gravedad y alcanzar nuevas alturas». El proceso completo está en las diapositivas, y en la versión comentada explico cada decisión." }
         ],
         galerias: [
-          { titulo: "El anuncio", disposicion: "piezas", medios: [
-            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/anuncio-final.webp", alt: "Anuncio · The North Face" }
+          { titulo: "El póster", disposicion: "piezas", medios: [
+            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/anuncio-final.webp", alt: "Póster final · The North Face", alto: true },
+            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/anuncio-comentado.webp", alt: "Versión comentada · Cada decisión explicada", alto: true }
           ] },
-          { titulo: "El proceso en 6 diapositivas", disposicion: "presentacion", despues: true, medios: [
-            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-1.webp", alt: "Diapositiva 1 · Proceso The North Face" },
-            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-2.webp", alt: "Diapositiva 2 · Proceso The North Face" },
-            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-3.webp", alt: "Diapositiva 3 · Proceso The North Face" },
-            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-4.webp", alt: "Diapositiva 4 · Proceso The North Face" },
-            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-5.webp", alt: "Diapositiva 5 · Proceso The North Face" },
-            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-6.webp", alt: "Diapositiva 6 · Proceso The North Face" }
+          { titulo: "El proceso", disposicion: "presentacion", despues: true, medios: [
+            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-1.webp", alt: "Portada · The North Face" },
+            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-2.webp", alt: "Moodboard" },
+            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-3.webp", alt: "Tipografía y paleta de color" },
+            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-4.webp", alt: "Retícula" },
+            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-5.webp", alt: "Elementos gráficos" }
+          ] }
+        ]
+      },
+      {
+        grupo: "Publicidad",
+        titulo: "Dixie Crossroads: rediseño",
+        contexto: "Clase de composición",
+        resumen: "Un anuncio real de un restaurante de mariscos que lo dice todo a gritos. Mi trabajo fue hacer que dijera lo mismo… pero que se pudiera leer.",
+        etiquetas: ["Composición", "Rediseño", "Jerarquía visual"],
+        historia: [
+          { titulo: "El diagnóstico",
+            texto: "El original compite consigo mismo: cinco colores de fondo, tipografías que gritan al mismo volumen, recortes de fotos sobre bloques fucsia y celeste, y ningún punto de entrada claro. Toda la información está, pero el ojo no sabe por dónde empezar." },
+          { titulo: "Una sola atmósfera",
+            texto: "Unifiqué todo en un fondo azul marino con ondas sutiles que evocan el mar, y un único color de acento, coral, que nace del propio cangrejo y la langosta. Dos colores bastan para ordenar lo que antes eran cinco." },
+          { titulo: "Jerarquía y ritmo",
+            texto: "Una sola familia tipográfica en pesos muy distintos: titulares grandes y compactos y textos secundarios livianos. Los platos se organizan en zigzag —foto a la izquierda, texto a la derecha y luego al revés— para que la lectura baje en ritmo, y los precios viven en círculos que se encuentran de inmediato." },
+          { titulo: "El resultado",
+            texto: "El mismo contenido, ahora con un recorrido claro: marca, oferta, precio y contacto. Un anuncio que se siente apetitoso y profesional en lugar de saturado." }
+        ],
+        galerias: [
+          { titulo: "Antes y después", disposicion: "piezas", medios: [
+            { tipo: "imagen", src: "assets/proyectos/composicion/rediseno/original.webp", alt: "Antes · Anuncio original" },
+            { tipo: "imagen", src: "assets/proyectos/composicion/rediseno/rediseno.webp", alt: "Después · Mi rediseño" }
           ] }
         ]
       },
       {
         grupo: "Campaña",
-        titulo: "Lanzamiento de una serie",
-        contexto: "Proyecto en equipos",
-        resumen: "Antes de que algo exista, hay que hacer que la gente lo espere. Diseñamos la campaña para lanzar una serie: primero la expectativa, después la revelación.",
-        etiquetas: ["Composición", "Campaña", "Trabajo en equipo"],
+        titulo: "Punto de Quiebre",
+        contexto: "Serie de Creación Digital · Proyecto entre equipos",
+        resumen: "Una serie sobre la traición y el precio de las decisiones. Antes del estreno había que hacer que la gente la esperara: primero la expectativa, después la revelación.",
+        etiquetas: ["Composición", "Campaña", "Redes sociales", "Trabajo en equipo"],
+        link: { texto: "Ver la campaña en Instagram", url: "https://www.instagram.com/puntodequiebre_04/" },
         historia: [
           { titulo: "El encargo",
-            texto: "En la carrera creamos una serie entre varios equipos, y había que darla a conocer. El reto no era solo diseñar piezas bonitas, sino construir una campaña con un orden: cada pieza tenía que preparar a la siguiente." },
+            texto: "En la carrera produjimos una serie entre varios equipos, Punto de Quiebre, y había que darla a conocer en redes. El reto no era solo diseñar piezas bonitas, sino construir una campaña con un orden: cada pieza tenía que preparar a la siguiente." },
+          { titulo: "Un sistema visual",
+            texto: "Todas las piezas comparten las mismas reglas: fotografía teñida en un solo color cálido —del amarillo al rojo—, tipografía ancha y en mayúsculas para los golpes, una más ligera para las frases, y la firma de Creación Digital y la Universidad El Bosque siempre en el mismo lugar." },
           { titulo: "La expectativa",
-            texto: "Las piezas de expectativa muestran poco a propósito. Juegan con lo que se oculta, con el espacio vacío y con un detalle que despierta la pregunta. La composición dirige la mirada hacia aquello que todavía no se explica." },
+            texto: "Las piezas de expectativa muestran poco a propósito. En la primera, el mismo rostro pasa por tres estados —«Esperanza», «Traición», «Venganza»— y el color se enciende del amarillo al rojo a medida que la historia se rompe. En la segunda conocemos a Andresito, desenfocado, como si ya se estuviera desmoronando: «Las deudas pasan… pero el vacío que dejó esta decisión, no sé si algún día pueda pagarlo»." },
           { titulo: "El lanzamiento",
-            texto: "La pieza de lanzamiento resuelve la intriga: aquí todo se revela y la jerarquía cambia. El título y la promesa de la serie pasan al frente, conservando el lenguaje visual que construyeron las piezas anteriores para que el público reconozca que todo era parte de lo mismo." },
-          { titulo: "El resultado",
-            texto: "Una campaña coherente de principio a fin, donde cada pieza tiene un papel distinto pero todas hablan el mismo idioma." }
+            texto: "La pieza de lanzamiento resuelve la intriga. La imagen se quiebra literalmente como un vidrio sobre una lluvia de billetes, y la jerarquía cambia: el título «Todo tiene un precio» y la fecha de estreno, 12/11/2025, pasan al frente. El quiebre visual es el nombre de la serie hecho imagen." }
         ],
         galerias: [
           { titulo: "Expectativa", disposicion: "piezas", medios: [
-            { tipo: "imagen", src: "assets/proyectos/composicion/serie/expectativa-1.webp", alt: "Pieza de expectativa 1" },
-            { tipo: "imagen", src: "assets/proyectos/composicion/serie/expectativa-2.webp", alt: "Pieza de expectativa 2" }
+            { tipo: "imagen", src: "assets/proyectos/composicion/serie/expectativa-1.webp", alt: "Expectativa 1 · Esperanza, traición, venganza" },
+            { tipo: "imagen", src: "assets/proyectos/composicion/serie/expectativa-2.webp", alt: "Expectativa 2 · Andresito" }
           ] },
           { titulo: "Lanzamiento", disposicion: "piezas", medios: [
-            { tipo: "imagen", src: "assets/proyectos/composicion/serie/lanzamiento.webp", alt: "Pieza de lanzamiento" }
+            { tipo: "imagen", src: "assets/proyectos/composicion/serie/lanzamiento.webp", alt: "Lanzamiento · Todo tiene un precio" }
           ] }
         ]
       }
