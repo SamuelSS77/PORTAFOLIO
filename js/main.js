@@ -10,6 +10,24 @@ const $ = (sel) => document.querySelector(sel);
 const escapeHTML = (str = "") =>
   String(str).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
+/* ---------- Siempre empezar en el hero ----------
+   El navegador recuerda la posición al recargar y salta a #seccion si la URL la trae */
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+window.scrollTo(0, 0);
+addEventListener("load", () => window.scrollTo(0, 0));
+addEventListener("pageshow", (e) => { if (e.persisted) window.scrollTo(0, 0); });   // volver con "atrás"
+
+// el menú baja a cada sección sin dejar #seccion en la URL
+document.querySelectorAll('a[href^="#"]').forEach((a) => {
+  a.addEventListener("click", (e) => {
+    const target = document.querySelector(a.getAttribute("href"));
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+  });
+});
+
 /* ---------- Datos del Maestro ---------- */
 function renderMaestro() {
   document.querySelectorAll("[data-maestro]").forEach((el) => {
