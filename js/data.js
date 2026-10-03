@@ -6,16 +6,18 @@
 
 const MAESTRO = {
   nombre: "Samu",
+  nombreCompleto: "Samuel Santiago Silva Largo",
   alias: "El Maestro de Cartas",
   clase: "Estudiante de Creación Digital",
   universidad: "Universidad El Bosque",
   semestre: "4° semestre",
-  nivel: 12,                         // tu "nivel" de Maestro (ej: años creando, edad creativa…)
+  nivel: 4,                          // nivel de Maestro = semestre que cursa
   foto: "assets/SamuelFoto.png",     // PNG con fondo transparente (vacío = silueta)
-  origen: "Ciudad, País",
+  origen: "Bogotá, Colombia",
   prologo: [
-    "Todo maestro empieza con un mazo vacío. El mío se llenó carta a carta: cada herramienta que aprendí, cada proyecto que terminé y cada error que me obligó a mejorar.",
-    "Hoy colecciono habilidades como creador digital. Cada carta de este mazo es una de ellas, con su nivel real de experiencia y las jugadas (proyectos) que la respaldan."
+    "Todo maestro empieza con un mazo vacío. El mío se ha ido llenando carta a carta durante mis cuatro semestres de Creación Digital en la Universidad El Bosque: cada herramienta de diseño, modelado o código que aprendí, cada proyecto que terminé y cada error que me obligó a evolucionar.",
+    "Hoy colecciono habilidades con un propósito. Cada carta de este mazo representa lo que aporto a la mesa, con su nivel real de experiencia y las jugadas (proyectos) que la respaldan. Sin embargo, mis cartas más valiosas no son solo técnicas: son mi responsabilidad, mi afán por proponer ideas revolucionarias y mi forma de jugar en equipo. Sé leer la mesa, escuchar activamente, comunicarme desde el respeto y usar mi mano siempre con la intención de impulsar a quienes trabajan a mi lado.",
+    "Mi objetivo es plasmar mi esencia en cada reto, adaptando mi estrategia y mi mazo exactamente a lo que la partida necesite."
   ],
   correo: "tucorreo@ejemplo.com",
   redes: [

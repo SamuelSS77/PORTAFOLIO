@@ -108,17 +108,37 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
   display: flex; align-items: center; justify-content: center;
   gap: clamp(8px, 2vw, 28px);
   margin-top: calc(var(--s) * -0.24);      /* la foto sube y queda por encima del HOLA */
-  font-size: clamp(40px, 8vw, 104px);
-  --s: clamp(280px, 46vw, 560px);
+  font-size: clamp(48px, 10vw, 128px);
+  --s: clamp(300px, 50vw, 620px);
 }
 .hero__soy, .hero__name { text-shadow: 0 6px 30px #000; margin-top: 18%; }
 
 /* Foto en PNG (sin círculo), por encima del HOLA */
 .hero__avatar { position: relative; z-index: 2; flex: none; height: var(--s); }
 .hero__avatar img {
+  position: relative;
   height: 100%; width: auto; max-width: none;
   filter: drop-shadow(0 24px 40px #000a) drop-shadow(0 0 40px #b46cff40);
+  transform-origin: 50% 85%;
+  transition: transform .5s cubic-bezier(.2, .8, .2, 1), filter .5s;
 }
+/* destello detrás de la foto al hacer hover */
+.hero__avatar::before {
+  content: ""; position: absolute; left: 50%; top: 42%;
+  width: 115%; aspect-ratio: 1; translate: -50% -50%;
+  background:
+    radial-gradient(circle, #fff8 0 6%, transparent 32%),
+    repeating-conic-gradient(from 0deg, #e8c26a55 0 6deg, transparent 6deg 18deg),
+    radial-gradient(circle, #b46cff66, transparent 65%);
+  -webkit-mask: radial-gradient(circle, #000 25%, transparent 68%);
+  mask: radial-gradient(circle, #000 25%, transparent 68%);
+  opacity: 0; scale: .6;
+  transition: opacity .5s, scale .6s cubic-bezier(.2, .8, .2, 1);
+  pointer-events: none;
+}
+.hero__avatar:hover img { transform: scale(1.08); filter: drop-shadow(0 24px 40px #000a) drop-shadow(0 0 50px #e8c26a70); }
+.hero__avatar:hover::before { opacity: 1; scale: 1; animation: destello 12s linear infinite; }
+@keyframes destello { to { rotate: 360deg; } }
 .hero__avatar.is-empty { width: calc(var(--s) * .75); }
 
 .hero__bottom {
@@ -352,7 +372,8 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
 }
 @media (max-width: 560px) {
   .nav__links a { font-size: 14px; letter-spacing: .03em; }
-  .hero__line { gap: 6px; --s: 230px; font-size: 34px; }
+  .hero__line { gap: 6px; --s: 240px; font-size: 38px; }
+  .hero__avatar { margin-inline: -14px; }   /* aprovecha el borde transparente del PNG */
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
