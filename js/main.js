@@ -10,6 +10,35 @@ const $ = (sel) => document.querySelector(sel);
 const escapeHTML = (str = "") =>
   String(str).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
+/* ---------- Seguridad ----------
+   Todo lo que viene de data.js pasa por estas funciones antes de llegar al HTML,
+   para que un dato mal escrito (o malicioso) nunca pueda ejecutar código. */
+
+// Solo deja pasar enlaces http(s), mailto, tel y rutas relativas del propio sitio.
+// Bloquea javascript:, data:, vbscript:, etc. (escapeHTML no basta para eso).
+function safeUrl(url = "") {
+  const u = String(url).trim();
+  if (!u) return "";
+  if (/^(https?:|mailto:|tel:)/i.test(u)) return u;
+  if (/^[a-z][a-z0-9+.-]*:/i.test(u) || u.startsWith("//")) return "";   // otro esquema o protocolo relativo
+  return u;                                                            // ruta relativa (assets/...)
+}
+const attrUrl = (url) => escapeHTML(safeUrl(url));
+
+// números acotados (estadísticas, niveles, poder)
+const num = (v, min = 0, max = 100) => Math.min(max, Math.max(min, Math.round(Number(v) || 0)));
+
+// estilos que dependen de datos: se aplican con CSSOM (no como atributo style="")
+// para que la Content-Security-Policy pueda bloquear los estilos inline
+function applyDataStyles(scope) {
+  scope.querySelectorAll("[data-v]").forEach((el) => el.style.setProperty("--v", `${num(el.dataset.v)}%`));
+  scope.querySelectorAll("[data-max]").forEach((el) => el.style.setProperty("--max", `${num(el.dataset.max, 0, 4000)}px`));
+  scope.querySelectorAll("[data-bg]").forEach((el) => {
+    const u = safeUrl(el.dataset.bg);
+    if (u) el.style.backgroundImage = `url("${encodeURI(u).replace(/["\\]/g, "")}")`;
+  });
+}
+
 /* ---------- Siempre empezar en el hero ----------
    El navegador recuerda la posición al recargar y salta a #seccion si la URL la trae */
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
@@ -21,7 +50,8 @@ addEventListener("pageshow", (e) => { if (e.persisted) window.scrollTo(0, 0); })
 // el menú baja a cada sección sin dejar #seccion en la URL
 document.querySelectorAll('a[href^="#"]').forEach((a) => {
   a.addEventListener("click", (e) => {
-    const target = document.querySelector(a.getAttribute("href"));
+    const id = a.getAttribute("href").slice(1);
+    const target = id && document.getElementById(id);   // getElementById: sin selectores arbitrarios
     if (!target) return;
     e.preventDefault();
     target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
@@ -38,10 +68,10 @@ function renderMaestro() {
   const photo = $("#trainerPhoto");
   const avatar = $("#heroAvatar");
   if (MAESTRO.foto) {
-    const img = `<img src="${escapeHTML(MAESTRO.foto)}" alt="Foto de ${escapeHTML(MAESTRO.nombre)}">`;
+    const img = `<img src="${attrUrl(MAESTRO.foto)}" alt="Foto de ${escapeHTML(MAESTRO.nombre)}">`;
     avatar.innerHTML = img;
     if (MAESTRO.fotoReal) {
-      photo.innerHTML = `<img src="${escapeHTML(MAESTRO.fotoReal)}" alt="Foto de ${escapeHTML(MAESTRO.nombreCompleto || MAESTRO.nombre)}">`;
+      photo.innerHTML = `<img src="${attrUrl(MAESTRO.fotoReal)}" alt="Foto de ${escapeHTML(MAESTRO.nombreCompleto || MAESTRO.nombre)}">`;
       photo.classList.add("is-real");
     } else {
       photo.innerHTML = img;
@@ -76,17 +106,17 @@ function renderMaestro() {
   const asunto = encodeURIComponent(MAESTRO.asuntoCorreo || "");
   const mail = $("#contactMail");
   if (matchMedia("(pointer: coarse)").matches) {
-    mail.href = `mailto:${MAESTRO.correo}?subject=${asunto}`;
+    mail.href = `mailto:${encodeURIComponent(MAESTRO.correo).replace("%40", "@")}?subject=${asunto}`;
   } else {
     mail.href = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(MAESTRO.correo)}&su=${asunto}`;
     mail.target = "_blank";
-    mail.rel = "noopener";
+    mail.rel = "noopener noreferrer";
   }
   $("#contactMailText").textContent = MAESTRO.correo;
 
   // Teléfono: descarga la tarjeta de contacto (.vcf) -> "Agregar a contactos"
   const phone = $("#contactPhone");
-  phone.href = MAESTRO.contactoVcf || `tel:${MAESTRO.telefono}`;
+  phone.href = safeUrl(MAESTRO.contactoVcf) || `tel:${String(MAESTRO.telefono).replace(/[^\d+]/g, "")}`;
   if (MAESTRO.contactoVcf) phone.setAttribute("download", "Samuel Silva.vcf");
   $("#contactPhoneText").textContent = MAESTRO.telefonoTexto;
 
@@ -97,7 +127,8 @@ function renderMaestro() {
     if (e.target === contactDialog) contactDialog.close();   // clic fuera de la ventana
   });
   $("#socials").innerHTML = MAESTRO.redes
-    .map((r) => `<li><a href="${escapeHTML(r.url)}" target="_blank" rel="noopener">${escapeHTML(r.nombre)}</a></li>`)
+    .filter((r) => safeUrl(r.url))
+    .map((r) => `<li><a href="${attrUrl(r.url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(r.nombre)}</a></li>`)
     .join("");
 
   $("#year").textContent = new Date().getFullYear();
@@ -106,7 +137,7 @@ function renderMaestro() {
 /* ---------- Reglas ---------- */
 function renderReglas() {
   $("#rulesRareza").innerHTML = Object.entries(RAREZAS)
-    .map(([key, r]) => `<li><span class="gem gem--${key}"></span><b>${r.nombre}:</b> ${escapeHTML(r.desc)}</li>`)
+    .map(([key, r]) => `<li><span class="gem gem--${escapeHTML(key)}"></span><b>${escapeHTML(r.nombre)}:</b> ${escapeHTML(r.desc)}</li>`)
     .join("");
 
   $("#rulesStats").innerHTML = Object.values(STATS)
@@ -119,30 +150,31 @@ function renderReglas() {
 
 /* ---------- Cartas ---------- */
 function stars(nivel) {
-  return "★".repeat(nivel) + `<span class="off">${"★".repeat(5 - nivel)}</span>`;
+  const n = num(nivel, 0, 5);   // fuera de 0–5, "repeat" lanzaría un error y rompería el mazo
+  return "★".repeat(n) + `<span class="off">${"★".repeat(5 - n)}</span>`;
 }
 
 function cardFront(c) {
   const rareza = RAREZAS[c.rareza];
   const el = ELEMENTOS[c.elemento];
   const art = c.imagen
-    ? `<img src="${escapeHTML(c.imagen)}" alt="" loading="lazy">`
-    : `<span class="card__art-ph">${el.icono}</span>`;
+    ? `<img src="${attrUrl(c.imagen)}" alt="" loading="lazy">`
+    : `<span class="card__art-ph">${escapeHTML(el.icono)}</span>`;
 
   const habilidades = c.habilidades
     .map((h) => `
       <li>
         <div><b>${escapeHTML(h.nombre)}</b> <small>${escapeHTML(h.herramienta)}</small></div>
-        <span class="card__power">${h.poder}</span>
+        <span class="card__power">${num(h.poder)}</span>
       </li>`)
     .join("");
 
   const stats = Object.keys(STATS)
     .map((k) => `
       <div class="stat">
-        <span>${k.slice(0, 3).toUpperCase()}</span>
-        <i style="--v:${c.stats[k]}%"></i>
-        <b>${c.stats[k]}</b>
+        <span>${escapeHTML(k.slice(0, 3).toUpperCase())}</span>
+        <i data-v="${num(c.stats[k])}"></i>
+        <b>${num(c.stats[k])}</b>
       </div>`)
     .join("");
 
@@ -150,15 +182,15 @@ function cardFront(c) {
     <div class="card__face card__front">
       <div class="card__head">
         <span class="card__name">${escapeHTML(c.nombre)}</span>
-        <span class="card__el" title="Elemento: ${el.nombre}">${el.icono}</span>
+        <span class="card__el" title="Elemento: ${escapeHTML(el.nombre)}">${escapeHTML(el.icono)}</span>
       </div>
-      <div class="card__stars" aria-label="Nivel ${c.nivel} de 5">${stars(c.nivel)}</div>
+      <div class="card__stars" aria-label="Nivel ${num(c.nivel, 0, 5)} de 5">${stars(c.nivel)}</div>
       <div class="card__art">${art}</div>
-      <div class="card__type">[${el.nombre} / ${rareza.nombre}] ${escapeHTML(c.titulo)}</div>
+      <div class="card__type">[${escapeHTML(el.nombre)} / ${escapeHTML(rareza.nombre)}] ${escapeHTML(c.titulo)}</div>
       <ul class="card__abilities">${habilidades}</ul>
       <div class="card__stats">${stats}</div>
       <p class="card__lema">${escapeHTML(c.lema)}</p>
-      <div class="card__foot"><span>${c.numero}</span><span>${rareza.nombre}</span></div>
+      <div class="card__foot"><span>${escapeHTML(c.numero)}</span><span>${escapeHTML(rareza.nombre)}</span></div>
       <div class="card__holo" aria-hidden="true"></div>
     </div>`;
 }
@@ -173,8 +205,8 @@ function cardHTML(c, { facedown = false } = {}) {
       </div>`;
   }
   return `
-    <button class="card card--${c.rareza} card--el-${c.elemento} ${facedown ? "is-facedown" : ""}"
-            data-id="${c.id}" data-nombre="${escapeHTML(c.nombre)}"
+    <button class="card card--${escapeHTML(c.rareza)} card--el-${escapeHTML(c.elemento)} ${facedown ? "is-facedown" : ""}"
+            data-id="${escapeHTML(c.id)}" data-nombre="${escapeHTML(c.nombre)}"
             aria-label="${facedown ? "Carta boca abajo: voltéala" : `Invocar carta ${escapeHTML(c.nombre)}`}">
       <div class="card__inner">
         ${cardFront(c)}
@@ -186,6 +218,7 @@ function cardHTML(c, { facedown = false } = {}) {
 function renderMazo() {
   const deck = $("#deck");
   deck.innerHTML = CARTAS.map((c) => cardHTML(c, { facedown: true })).join("");
+  applyDataStyles(deck);
 
   // Las cartas empiezan boca abajo: el hover (o un toque en celular) las voltea,
   // y solo cuando ya están volteadas un clic las invoca
@@ -234,14 +267,16 @@ function summon(id) {
   if (!c) return;
 
   $("#summonCard").innerHTML = cardHTML(c);
+  applyDataStyles($("#summonCard"));
   enableTilt($("#summonCard"));
   $("#summonTitle").textContent = c.nombre;
-  $("#summonSubtitle").textContent = `${c.titulo} · ${RAREZAS[c.rareza].nombre} · ${c.nivel}★ de 5`;
+  $("#summonSubtitle").textContent = `${c.titulo} · ${RAREZAS[c.rareza].nombre} · ${num(c.nivel, 0, 5)}★ de 5`;
 
   const plays = $("#summonPlays");
   plays.innerHTML = c.proyectos.length
     ? playsHTML(c)
     : `<p class="plays__empty">Aún no hay jugadas registradas para esta carta.</p>`;
+  applyDataStyles(plays);
   setupMedia(plays);
   setupSlides(plays);
 
@@ -271,10 +306,10 @@ function playsHTML(c) {
   if (simples.length) {
     html += `<div class="plays">${simples.map((p) => {
       const img = p.imagen
-        ? `<img src="${escapeHTML(p.imagen)}" alt="${escapeHTML(p.titulo)}" loading="lazy">`
-        : `<span class="play__ph">${ELEMENTOS[c.elemento].icono}</span>`;
-      const title = p.link
-        ? `<a href="${escapeHTML(p.link)}" target="_blank" rel="noopener">${escapeHTML(p.titulo)} ↗</a>`
+        ? `<img src="${attrUrl(p.imagen)}" alt="${escapeHTML(p.titulo)}" loading="lazy">`
+        : `<span class="play__ph">${escapeHTML(ELEMENTOS[c.elemento].icono)}</span>`;
+      const title = safeUrl(p.link)
+        ? `<a href="${attrUrl(p.link)}" target="_blank" rel="noopener noreferrer">${escapeHTML(p.titulo)} ↗</a>`
         : escapeHTML(p.titulo);
       return `
         <article class="play">
@@ -293,7 +328,7 @@ function jugadaHTML(p, n) {
   const tags = (p.etiquetas || []).map((t) => `<li>${escapeHTML(t)}</li>`).join("");
   const historia = p.historia || [];
   // posición de cada galería: "tras: n" = justo después de la fase n; "despues" = al final; si no, antes de la historia
-  const pos = (g) => g.tras || (g.despues ? historia.length : 0);
+  const pos = (g) => (g.tras ? num(g.tras, 0, historia.length) : (g.despues ? historia.length : 0));
   const galeriasEn = (n) => galerias.filter((g) => pos(g) === n).map(galeriaHTML).join("");
 
   let cuerpo = galeriasEn(0);
@@ -317,7 +352,7 @@ function jugadaHTML(p, n) {
         <h4 class="jugada__title">${escapeHTML(p.titulo)}</h4>
         ${p.resumen ? `<p class="jugada__lead">${escapeHTML(p.resumen)}</p>` : ""}
         ${tags ? `<ul class="tags">${tags}</ul>` : ""}
-        ${p.link ? `<a class="jugada__link" href="${escapeHTML(p.link.url)}" target="_blank" rel="noopener">${escapeHTML(p.link.texto)} ↗</a>` : ""}
+        ${p.link && safeUrl(p.link.url) ? `<a class="jugada__link" href="${attrUrl(p.link.url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(p.link.texto)} ↗</a>` : ""}
       </header>
       ${cuerpo}
     </article>`;
@@ -350,7 +385,7 @@ function galeriaHTML(g) {
   return `
     <div class="gallery-block">
       ${titulo}
-      <div class="${cls}" data-galeria${g.ancho ? ` style="--max: ${Number(g.ancho)}px"` : ""}>${medios.map(mediaHTML).join("")}</div>
+      <div class="${cls}" data-galeria${g.ancho ? ` data-max="${num(g.ancho, 0, 4000)}"` : ""}>${medios.map(mediaHTML).join("")}</div>
     </div>`;
 }
 
@@ -375,17 +410,17 @@ function mediaHTML(m) {
   if (m.tipo === "video") {
     // sin sonido + playsinline = autoplay permitido en todos los navegadores (también iPhone)
     return `
-      <div class="media media--video" role="button" tabindex="0" data-video="${escapeHTML(m.src)}"
-        data-poster="${escapeHTML(m.poster || "")}" data-alt="${alt}" aria-label="Ver en grande: ${alt}"
-        ${m.poster ? `style="background-image: url('${escapeHTML(m.poster)}')"` : ""}>
+      <div class="media media--video" role="button" tabindex="0" data-video="${attrUrl(m.src)}"
+        data-poster="${attrUrl(m.poster)}" data-alt="${alt}" aria-label="Ver en grande: ${alt}"
+        ${m.poster ? `data-bg="${attrUrl(m.poster)}"` : ""}>
         <!-- la portada va como fondo: el atributo poster se estira en lugar de recortarse -->
-        <video muted loop playsinline preload="none" data-src="${escapeHTML(m.src)}" aria-hidden="true"
+        <video muted loop playsinline preload="none" data-src="${attrUrl(m.src)}" aria-hidden="true"
           ${reduceMotion ? "controls" : ""}></video>
       </div>`;
   }
   return `
-    <button class="media media--img${m.alto ? " media--tall" : ""}" type="button" data-full="${escapeHTML(m.src)}" data-alt="${alt}" aria-label="Ver en grande: ${alt}">
-      <img src="${escapeHTML(m.src)}" alt="${alt}" decoding="async">
+    <button class="media media--img${m.alto ? " media--tall" : ""}" type="button" data-full="${attrUrl(m.src)}" data-alt="${alt}" aria-label="Ver en grande: ${alt}">
+      <img src="${attrUrl(m.src)}" alt="${alt}" decoding="async">
       ${m.alt ? `<span class="media__cap">${escapeHTML(m.alt.split(" · ")[0])}</span>` : ""}
     </button>`;
 }
@@ -394,7 +429,7 @@ function mediaHTML(m) {
 function mediaPlaceholder(el, alt) {
   const ph = document.createElement("div");
   ph.className = "media media--ph";
-  ph.innerHTML = `<span>${escapeHTML(alt.split(" · ")[0])}</span><small>Pendiente</small>`;
+  ph.innerHTML = `<span>${escapeHTML(String(alt || "").split(" · ")[0])}</span><small>Pendiente</small>`;
   el.replaceWith(ph);
 }
 
