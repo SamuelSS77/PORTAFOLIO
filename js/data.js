@@ -161,23 +161,23 @@ const CARTAS = [
     proyectos: [
       {
         grupo: "Publicidad",
-        titulo: "The North Face: rediseño de un anuncio",
+        titulo: "The North Face: un anuncio desde cero",
         contexto: "Clase de composición",
-        resumen: "Desarmar un anuncio para entender por qué funciona… y volver a armarlo mejor.",
-        etiquetas: ["Composición", "Dirección de arte", "Photoshop"],
+        resumen: "Una hoja en blanco, unos textos obligatorios y una marca enorme. Todo lo demás —cada forma, cada espacio, cada jerarquía— fue decisión mía.",
+        etiquetas: ["Composición", "Dirección de arte", "Illustrator", "Vectorial"],
         historia: [
           { titulo: "El punto de partida",
-            texto: "Partí de un anuncio de The North Face, una marca que vende algo más que ropa: la sensación de estar frente a lo imposible. La pregunta era si su composición transmitía esa idea con toda la fuerza que podía." },
-          { titulo: "La lectura",
-            texto: "Lo analicé pieza por pieza: hacia dónde va primero la mirada, qué elemento pesa más, cómo se reparte el espacio y qué tan rápido se entiende el mensaje. Ahí aparecieron las decisiones que podían mejorar." },
-          { titulo: "El rediseño",
-            texto: "Con ese diagnóstico reorganicé el anuncio: una jerarquía más clara, un punto focal dominante y un recorrido visual que lleva de la imagen a la marca sin distracciones." },
+            texto: "El encargo traía solo los textos que debía usar; el resto estaba por construir. The North Face vende algo más que ropa: la sensación de estar frente a lo imposible, y el anuncio tenía que transmitirlo." },
+          { titulo: "La decisión clave",
+            texto: "Con libertad total, fijé una prioridad desde el principio: el logo manda. La composición se organizó para que la mirada llegara a la marca y que todo lo demás la acompañara sin competir con ella." },
+          { titulo: "La construcción",
+            texto: "Lo trabajé en Adobe Illustrator, totalmente en vectorial. Distribuí los textos según su importancia, equilibré pesos y espacios vacíos y cuidé el recorrido visual para que el mensaje se leyera en el orden correcto." },
           { titulo: "El resultado",
-            texto: "Un anuncio que se lee en un vistazo y conserva el espíritu de la marca. Todo el proceso, paso a paso, está en las diapositivas." }
+            texto: "Un anuncio limpio, escalable a cualquier tamaño, donde la marca es la protagonista. El contexto y el proceso completo, paso a paso, están en las diapositivas." }
         ],
         galerias: [
-          { titulo: "El anuncio rediseñado", disposicion: "piezas", medios: [
-            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/anuncio-final.webp", alt: "Anuncio rediseñado · The North Face" }
+          { titulo: "El anuncio", disposicion: "piezas", medios: [
+            { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/anuncio-final.webp", alt: "Anuncio · The North Face" }
           ] },
           { titulo: "El proceso en 6 diapositivas", disposicion: "presentacion", despues: true, medios: [
             { tipo: "imagen", src: "assets/proyectos/composicion/the-north-face/slide-1.webp", alt: "Diapositiva 1 · Proceso The North Face" },
