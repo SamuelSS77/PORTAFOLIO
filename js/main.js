@@ -302,7 +302,8 @@ function mediaHTML(m) {
   }
   return `
     <button class="media media--img" type="button" data-full="${escapeHTML(m.src)}" data-alt="${alt}" aria-label="Ver en grande: ${alt}">
-      <img src="${escapeHTML(m.src)}" alt="${alt}" loading="lazy" decoding="async">
+      <img src="${escapeHTML(m.src)}" alt="${alt}" decoding="async">
+      ${m.alt ? `<span class="media__cap">${escapeHTML(m.alt.split(" · ")[0])}</span>` : ""}
     </button>`;
 }
 

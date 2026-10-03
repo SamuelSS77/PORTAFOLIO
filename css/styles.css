@@ -446,9 +446,17 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
 }
 .media img, .media video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .media--img { padding: 0; cursor: zoom-in; font: inherit; }
-.media--img img { transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
-.media--img:hover img, .media--img:focus-visible img { transform: scale(1.04); }
+/* zoom hacia el objeto (los renders tienen mucho fondo); en el visor se ven completos */
+.media--img { --z: 1.5; }
+.gallery > .media--img:first-child { --z: 1.25; }
+.media--img img { transform: scale(var(--z)); transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
+.media--img:hover img, .media--img:focus-visible img { transform: scale(calc(var(--z) * 1.06)); }
 .media--img:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.media__cap {
+  position: absolute; left: 10px; bottom: 10px; white-space: nowrap;
+  padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; color: var(--text);
+  background: #0d0b14cc; backdrop-filter: blur(4px); border: 1px solid #ffffff1a;
+}
 .media--ph {
   display: grid; place-content: center; text-align: center; gap: 4px;
   border: 1px dashed color-mix(in srgb, var(--gold-2) 60%, transparent);
@@ -572,6 +580,9 @@ h1, h2, h3 { font-family: var(--font-title); line-height: 1.15; margin: 0; }
   .contact__icon { width: 34px; height: 34px; font-size: 16px; }
   .contact__link b { font-size: 12px; }
   .jugada { padding: 16px; }
+  .media__cap { left: 6px; bottom: 6px; padding: 2px 8px; font-size: 10.5px; }
+  .gallery > .media--img:not(:first-child) { aspect-ratio: 4 / 3; --z: 1.6; }
+  .gallery > .media--img:not(:first-child) .media__cap { top: 6px; bottom: auto; }
   .fase { grid-template-columns: 32px 1fr; gap: 10px; }
   .fase__num { width: 32px; height: 32px; font-size: 13px; }
   .viewer__fig { max-width: calc(100vw - 24px); }

@@ -97,18 +97,18 @@ const CARTAS = [
           { titulo: "El reto",
             texto: "Global Seguros planteó un desafío: representar su seguro educativo a través de props. Un seguro no tiene forma, así que el trabajo era encontrarle una que cualquiera pudiera reconocer de un vistazo." },
           { titulo: "La idea",
-            texto: "Partí de objetos que todos asociamos con estudiar y los combiné con señales de protección y de futuro. Cada prop cuenta una parte de la misma promesa: que el camino educativo esté asegurado." },
+            texto: "Si el seguro acompaña toda la vida educativa, los props tenían que contar esa vida. Elegí cinco objetos, uno por etapa: el chupete, el día en que todo empieza y la protección ya está ahí; la mochila, los primeros años de colegio; el escritorio, las horas de estudio; el globo terráqueo, la curiosidad que lleva a la universidad y al mundo; y la medalla, la meta cumplida." },
           { titulo: "El proceso",
-            texto: "Bocetos rápidos para fijar las siluetas, modelado en Blender, materiales y luz pensados para que todos los props se sintieran parte de una misma familia, y render final. Con el reloj de la hackathon encima, prioricé formas claras y una paleta coherente." },
+            texto: "Bocetos rápidos para fijar las siluetas y modelado en Blender. Para que los cinco se sintieran una misma familia les di una paleta común —azul, rojo coral y dorado—, acabados brillantes y amables, y los presenté flotando sobre un fondo gris neutro, como piezas de una colección. Con el reloj de la hackathon encima, prioricé formas claras que se entendieran de un vistazo." },
           { titulo: "El resultado",
-            texto: "Cinco props listos para presentar, que traducen un producto financiero en algo cercano, amable y fácil de entender." }
+            texto: "Cinco props que, puestos en fila, cuentan una historia completa: de la cuna a la meta. Un producto financiero convertido en algo cercano, cálido y fácil de entender." }
         ],
         medios: [
-          { tipo: "imagen", src: "assets/proyectos/3d/seguro-educativo/render-1.webp", alt: "Render 1 · Seguro educativo" },
-          { tipo: "imagen", src: "assets/proyectos/3d/seguro-educativo/render-2.webp", alt: "Render 2 · Seguro educativo" },
-          { tipo: "imagen", src: "assets/proyectos/3d/seguro-educativo/render-3.webp", alt: "Render 3 · Seguro educativo" },
-          { tipo: "imagen", src: "assets/proyectos/3d/seguro-educativo/render-4.webp", alt: "Render 4 · Seguro educativo" },
-          { tipo: "imagen", src: "assets/proyectos/3d/seguro-educativo/render-5.webp", alt: "Render 5 · Seguro educativo" }
+          { tipo: "imagen", src: "assets/proyectos/3d/seguro-educativo/1-chupete.jpg",    alt: "Chupete · El comienzo" },
+          { tipo: "imagen", src: "assets/proyectos/3d/seguro-educativo/2-mochila.jpg",    alt: "Mochila · Los primeros años de colegio" },
+          { tipo: "imagen", src: "assets/proyectos/3d/seguro-educativo/3-escritorio.jpg", alt: "Escritorio · Las horas de estudio" },
+          { tipo: "imagen", src: "assets/proyectos/3d/seguro-educativo/4-globo.jpg",      alt: "Globo terráqueo · La universidad y el mundo" },
+          { tipo: "imagen", src: "assets/proyectos/3d/seguro-educativo/5-medalla.jpg",    alt: "Medalla · La meta cumplida" }
         ]
       },
       {
