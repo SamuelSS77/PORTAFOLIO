@@ -21,15 +21,30 @@ const MAESTRO = {
     "Mi objetivo es plasmar mi esencia en cada reto, adaptando mi estrategia y mi mazo exactamente a lo que la partida necesite."
   ],
   correo: "samuelsantiagosilvalargo@gmail.com",
-  asuntoCorreo: "Reto para el Maestro de Cartas: propuesta de proyecto",
+  asuntoCorreo: "Oportunidad para Samuel Silva",
   telefono: "+573124184684",          // formato internacional para el enlace tel:
   telefonoTexto: "312 418 4684",      // como se muestra en pantalla
   contactoVcf: "assets/samuel-silva.vcf", // tarjeta de contacto (si cambias número/correo, cámbialos también ahí)
   redes: [
     { nombre: "Instagram", url: "https://www.instagram.com/samuelx08_/" },
     { nombre: "Behance",   url: "https://www.behance.net/samuelsilval2" },
-    { nombre: "LinkedIn",  url: "https://co.linkedin.com/in/samuel-santiago-silva-largo-044745339" }
-  ]
+    { nombre: "LinkedIn",  url: "https://co.linkedin.com/in/samuel-santiago-silva-largo-044745339" },
+    { nombre: "GitHub",    url: "https://github.com/SamuelSS77" }
+  ],
+  // Botón de contacto del hero, enlace "Contact" del menú y la ventana que abren.
+  // Otras ideas para el botón: "Hablemos de tu proyecto", "Sumemos fuerzas", "Armemos el equipo".
+  cta: {
+    boton: "Juguemos en equipo",
+    eyebrow: "Contacto",
+    titulo: "Juguemos en equipo",
+    lead: "Elige cómo conectamos:"
+  },
+  // Capítulo V: cierre "La mano final" (sin botón). En el título, la última palabra va en lima.
+  cierre: {
+    eyebrow: "Capítulo V · La mano final",
+    titulo: "Esta es mi baraja",
+    texto: "Estas son las cartas que juego hoy, y vienen más. Si alguna encaja en tu equipo, conversemos."
+  }
 };
 
 /* ---------------------------------------------------------
@@ -84,13 +99,20 @@ const CARTAS = [
     /* Jugadas con historia:
        grupo     -> agrupa las jugadas bajo un subtítulo dentro de la carta
        historia  -> fases de la historia (título + texto)
-       medios    -> { tipo: "imagen", src, alt }  o  { tipo: "video", src (mp4), poster (jpg/webp), alt }
+       medios    -> { tipo: "imagen", src, alt }  o  { tipo: "video", src (mp4 H.264), poster (jpg/webp), alt }
+                    (video: srcWebm opcional, se ofrece primero: útil para navegadores sin H.264)
+       portada   -> (opcional) imagen de la mini-carta; si no, la 1ª imagen de sus medios o el poster del 1er video
+       portadaPos-> (opcional) "top", "center" o "bottom": qué parte de la portada se ve si hay que recortarla
+       ficha     -> (opcional) ficha técnica de la jugada: { rol, herramientas: [..], tiempo, equipo }.
+                    Las celdas vacías ("" o []) no se muestran; "Contexto" sale de contexto.
        Si el archivo aún no existe, se muestra un recuadro "pendiente" en su lugar. */
     proyectos: [
       {
         grupo: "Props",
         titulo: "Seguro educativo",
         contexto: "Hackathon · Global Seguros",
+        portada: "assets/proyectos/3d/seguro-educativo/5-medalla.jpg",
+        ficha: { rol: "Props 3D", herramientas: ["Blender", "Cycles"], tiempo: "", equipo: "Hackathon en equipo" },
         resumen: "¿Cómo se ve una promesa? En esta hackathon, dentro de un equipo, mi parte fue el 3D: convertir un seguro educativo —algo que no se puede tocar— en objetos que lo contaran sin palabras.",
         etiquetas: ["Blender", "Cycles", "Modelado", "Props", "Trabajo en equipo"],
         historia: [
@@ -115,6 +137,7 @@ const CARTAS = [
         grupo: "Animaciones",
         titulo: "La pelota que rebota",
         contexto: "Clase de modelado 3D",
+        ficha: { rol: "Animación", herramientas: ["Blender"], tiempo: "", equipo: "" },
         resumen: "El primer hechizo de todo animador: darle vida a una pelota.",
         etiquetas: ["Blender", "Animación", "Timing"],
         historia: [
@@ -129,6 +152,7 @@ const CARTAS = [
         grupo: "Animaciones",
         titulo: "Personaje en movimiento",
         contexto: "Clase de modelado 3D",
+        ficha: { rol: "Animación de personaje", herramientas: ["Blender"], tiempo: "", equipo: "" },
         resumen: "Del rebote a la intención: cuando lo que se mueve tiene que parecer que piensa.",
         etiquetas: ["Blender", "Animación", "Personaje"],
         historia: [
@@ -152,10 +176,10 @@ const CARTAS = [
     imagen: "",
     stats: { creatividad: 80, tecnica: 70, velocidad: 75 },
     habilidades: [
-      { nombre: "Equilibrio visual", herramienta: "Photoshop", poder: 60,
-        desc: "Distribuye cada elemento para que la mirada fluya con armonía." },
-      { nombre: "Jerarquía visual", herramienta: "Illustrator", poder: 70,
-        desc: "Ordena el caos para que cada elemento cuente su parte." }
+      { nombre: "Montaje", herramienta: "Photoshop", poder: 60,
+        desc: "Une, recorta y compone imágenes hasta que parezcan una sola." },
+      { nombre: "Vectores", herramienta: "Illustrator", poder: 70,
+        desc: "Dibuja formas limpias que escalan sin perder nitidez." }
     ],
     lema: "«Nada está donde está por casualidad.»",
     proyectos: [
@@ -163,6 +187,8 @@ const CARTAS = [
         grupo: "Publicidad",
         titulo: "The North Face: ¡Atención, escaladores!",
         contexto: "Composición Plástica · UEB",
+        portadaPos: "top",
+        ficha: { rol: "Composición y dirección de arte", herramientas: ["Illustrator"], tiempo: "", equipo: "" },
         resumen: "Un email marketing para el 2º Campeonato Nacional de Escalada en Bloque en Sogamoso, Boyacá. Partí de una hoja en blanco y unos textos obligatorios: todo lo demás —cada forma, cada espacio, cada jerarquía— fue decisión mía.",
         etiquetas: ["Composición", "Dirección de arte", "Illustrator", "Vectorial"],
         historia: [
@@ -192,6 +218,9 @@ const CARTAS = [
         grupo: "Publicidad",
         titulo: "Dixie Crossroads: rediseño",
         contexto: "Clase de composición",
+        portada: "assets/proyectos/composicion/rediseno/rediseno.webp",
+        portadaPos: "top",
+        ficha: { rol: "Rediseño", herramientas: [], tiempo: "", equipo: "" },
         resumen: "Un anuncio real de un restaurante de mariscos que lo dice todo a gritos. Mi trabajo fue hacer que dijera lo mismo… pero que se pudiera leer.",
         etiquetas: ["Composición", "Rediseño", "Jerarquía visual"],
         historia: [
@@ -217,6 +246,7 @@ const CARTAS = [
         grupo: "Campaña",
         titulo: "Punto de Quiebre",
         contexto: "Serie de Creación Digital · Proyecto entre equipos",
+        ficha: { rol: "Campaña en redes sociales", herramientas: [], tiempo: "", equipo: "Proyecto entre varios equipos" },
         resumen: "Una serie sobre la traición y el precio de las decisiones. Antes del estreno había que hacer que la gente la esperara: primero la expectativa, después la revelación.",
         etiquetas: ["Composición", "Campaña", "Redes sociales", "Trabajo en equipo"],
         link: { texto: "Ver la campaña en Instagram", url: "https://www.instagram.com/puntodequiebre_04/" },
@@ -250,3 +280,133 @@ const CARTAS = [
     pista: "Próxima expansión"
   }
 ];
+
+/* ---------------------------------------------------------
+   EL SOBRE (Capítulo II · El Maestro)
+   Imagen del sobre que se abre. La carta que sale es la del Maestro
+   (.trainer en index.html), con nivel, nombre, clase y origen de MAESTRO
+   El nivel sale de MAESTRO.nivel y el número de cartas se cuenta solo.
+   --------------------------------------------------------- */
+const SOBRE = {
+  imagenes: {
+    sobre: "assets/sobre/sobre.png"   // sobre cerrado (640×1148). La carta que sale es la del Maestro (.trainer)
+  }
+};
+
+/* ---------------------------------------------------------
+   QUIÉN SOY: los paneles del scroll horizontal (en orden)
+   rareza -> (sin efecto visual: todos los paneles van en violeta con hover lima)
+   Cambia cada "[RELLENAR: …]" por tu texto.
+   --------------------------------------------------------- */
+const QUIEN_SOY = [
+  {
+    eyebrow: "01 · La carta",
+    titulo: "La carta",
+    rareza: "rara",
+    // Una frase corta que te presente (quién eres en una línea)
+    texto: ["Fresco como mandarina."]
+  },
+  {
+    eyebrow: "02 · Origen",
+    titulo: "Origen",
+    rareza: "comun",
+    alto: "a",   // los paneles con el mismo "alto" miden lo mismo (el del más alto)
+    subtitulo: "Bogotá, Colombia",
+    // Tu historia: cómo empezaste en lo digital. Texto temporal: 1er párrafo del antiguo prólogo
+    texto: [MAESTRO.prologo[0]]
+  },
+  {
+    eyebrow: "03 · Formación",
+    titulo: "Formación",
+    rareza: "epica",
+    alto: "a",
+    subtitulo: "Dónde me he formado",
+    // Línea de tiempo: periodo + dónde
+    etapas: [
+      { nombre: "2013 – 2024",       texto: "Colegio Diana Turbay IED" },
+      { nombre: "2023 – 2024",       texto: "Técnico en Sistemas · SENA" },
+      { nombre: "2025 – Actualidad", texto: "Creación Digital · Universidad El Bosque" }
+    ]
+  },
+  {
+    eyebrow: "04 · Mis cartas más valiosas",
+    titulo: "Mis cartas más valiosas",
+    rareza: "legendaria",
+    alto: "b",
+    // Texto temporal: 2º párrafo del antiguo prólogo
+    texto: [MAESTRO.prologo[1]],
+    // nivel = estrellas (1 a 5) + una frase para cada una
+    miniCartas: [
+      { nombre: "Responsabilidad",       nivel: 5, texto: "Me gusta cumplirles a los demás y a mí mismo cuando se me delega o me propongo algo." },
+      { nombre: "Ideas revolucionarias", nivel: 4, texto: "Siempre busco innovar con ideas nuevas que se salgan de lo monótono." },
+      { nombre: "Trabajo en equipo",     nivel: 4, texto: "Escucho con atención, hablo cuando debo y sigo aprendiendo a trabajar en equipo." }
+    ]
+  },
+  {
+    eyebrow: "05 · Mi equipo",
+    titulo: "Mi equipo",
+    rareza: "rara",
+    alto: "b",
+    // Carta interactiva: al pasar el ratón (o tocarla) saltan los íconos de las herramientas.
+    // Para añadir una herramienta basta una línea nueva con su nombre y su PNG
+    // (esfera con fondo transparente, 256×256, en assets/herramientas/). Funciona con 1 a ~14.
+    equipo: {
+      tipo: "Aliados / Herramientas",
+      // descripcion: máx. ~150 caracteres para que quepa en la carta
+      descripcion: "Los aliados que juegan conmigo. Con ellos modelo y animo en 3D, compongo en 2D, llevo las ideas a pantalla y código y las pongo en movimiento.",
+      // portada: nombres (como en herramientas) de las 3 pelotas que se ven en la carta;
+      // se pueden cambiar por cualquier otra herramienta de la lista
+      portada: ["Blender", "Photoshop", "Figma"],
+      herramientas: [
+        { nombre: "Blender",            icono: "assets/herramientas/blender.png" },
+        { nombre: "Photoshop",          icono: "assets/herramientas/photoshop.png" },
+        { nombre: "Illustrator",        icono: "assets/herramientas/illustrator.png" },
+        { nombre: "Visual Studio Code", icono: "assets/herramientas/vscode.png" },
+        { nombre: "Claude",             icono: "assets/herramientas/claude.png" },
+        { nombre: "CapCut",             icono: "assets/herramientas/capcut.png" },
+        { nombre: "Figma",              icono: "assets/herramientas/figma.png" },
+        { nombre: "GitHub",             icono: "assets/herramientas/github.png" }
+      ]
+    }
+  },
+  {
+    eyebrow: "06 · Fuera de la mesa",
+    titulo: "Fuera de la mesa",
+    rareza: "comun",
+    alto: "c",
+    // Gustos, hobbies o un dato curioso
+    texto: ["Me gusta aprender sobre tecnología, los videojuegos, pasar tiempo en familia y hacer deporte, en especial el fútbol y el ciclismo."],
+    foto: "",        // opcional: ruta de una foto (vacío = sin foto)
+    fotoAlt: ""
+  },
+  {
+    eyebrow: "07 · Mi objetivo",
+    titulo: "Mi objetivo",
+    rareza: "epica",
+    alto: "c",
+    // Frase final. Texto temporal: 3er párrafo del antiguo prólogo
+    texto: [MAESTRO.prologo[2]]
+  }
+];
+
+/* ---------------------------------------------------------
+   CAPÍTULO III · LAS REGLAS (cómo leer mis cartas)
+   Una diapositiva por paso. La carta de ejemplo es la primera de CARTAS
+   (la de 3D) y en cada paso se resalta una parte:
+   resaltar -> "rareza" (el borde), "estrellas", "habilidades" o "estadisticas".
+   lista    -> "rarezas" (sale de RAREZAS) o "stats" (sale de STATS).
+   Los ★ del texto se pintan como estrellas.
+   --------------------------------------------------------- */
+const REGLAS = {
+  eyebrow: "Capítulo III · Las Reglas",
+  titulo: "Cómo leer mis cartas",
+  pasos: [
+    { paso: "Rareza",       titulo: "Rareza = Dominio",           resaltar: "rareza",       lista: "rarezas" },
+    { paso: "Estrellas",    titulo: "Estrellas = Experiencia",    resaltar: "estrellas",
+      texto: "De ★ a ★★★★★. Tiempo y proyectos acumulados usando esa skill." },
+    { paso: "Habilidades",  titulo: "Habilidades = Herramientas", resaltar: "habilidades",
+      texto: "Las técnicas y programas con los que ejecuto la skill. El número indica su poder (qué tan fuerte la tengo)." },
+    { paso: "Estadísticas", titulo: "Estadísticas",               resaltar: "estadisticas", lista: "stats",
+      boton: { texto: "Ver mi mazo →", href: "#mazo" } }
+  ]
+};

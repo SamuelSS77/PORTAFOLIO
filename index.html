@@ -11,8 +11,8 @@
   <meta name="description" content="Portafolio de creador digital contado como un mazo de cartas: cada carta es una skill.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=24">
+  <link href="https://fonts.googleapis.com/css2?family=Tektur:wght@800;900&family=Space+Mono:wght@400;700&family=Sora:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=57">
 </head>
 <body>
 
@@ -21,86 +21,121 @@
       <a href="#arena">Home</a>
       <a href="#mazo">Work</a>
       <a href="#maestro">About</a>
-      <a href="#duelo">Contact</a>
+      <a href="#duelo" data-open-contact aria-haspopup="dialog">Contact</a>
     </nav>
   </header>
 
   <main>
-    <!-- I. LA ARENA (portada) -->
+    <!-- I. LA ARENA (portada): capas de atrás hacia adelante -->
     <section id="arena" class="hero">
-      <div class="hero__decor" aria-hidden="true">
-        <div class="card-back hero__float hero__float--1"></div>
-        <div class="card-back hero__float hero__float--2"></div>
-        <div class="card-back hero__float hero__float--3"></div>
-        <div class="card-back hero__float hero__float--4"></div>
-        <div class="card-back hero__float hero__float--5"></div>
-        <div class="card-back hero__float hero__float--6"></div>
+      <!-- z1 · nombre gigante corriendo de fondo -->
+      <div class="hero__marquee" aria-hidden="true">
+        <div class="marquee marquee--fill">
+          <div class="marquee__track">
+            <span>SAMUEL SILVA <i class="marquee__card"></i> SAMUEL SILVA <i class="marquee__card"></i> </span><span>SAMUEL SILVA <i class="marquee__card"></i> SAMUEL SILVA <i class="marquee__card"></i> </span>
+          </div>
+        </div>
+        <div class="marquee marquee--outline">
+          <div class="marquee__track">
+            <span>PORTAFOLIO CREADOR DIGITAL <i class="marquee__card"></i> </span><span>PORTAFOLIO CREADOR DIGITAL <i class="marquee__card"></i> </span>
+          </div>
+        </div>
       </div>
 
-      <h1 class="hero__title">
-        <span class="hero__hola">Hola</span>
-        <span class="hero__line">
-          <span class="hero__soy">Soy</span>
-          <span class="hero__avatar" id="heroAvatar"></span>
-          <span class="hero__name" data-maestro="nombre">Samu</span>
-        </span>
-      </h1>
+      <!-- z2 · textura "piel de baraja" (reverso de carta + grano de papel) -->
+      <div class="hero__skin" aria-hidden="true"></div>
 
+      <!-- z3 · foto (se mueve un poco al pasar el ratón por encima) -->
+      <div class="hero__stage">
+        <div class="hero__photo" id="heroAvatar"></div>
+      </div>
+
+      <!-- z5 · textos y botón -->
       <div class="hero__bottom">
         <div class="hero__role">
-          <p class="eyebrow" data-maestro="alias">El Maestro de Cartas</p>
+          <h1 class="hero__hi">Hola, soy <span data-maestro="nombre">Samu</span> · <span data-maestro="alias">El Maestro de Cartas</span></h1>
           <p class="hero__clase" data-maestro="clase">Estudiante de Creación Digital</p>
-          <p class="hero__uni" data-maestro="universidad">Universidad El Bosque</p>
-          <p class="hero__semestre" data-maestro="semestre">4° semestre</p>
+          <p class="hero__uni"><span data-maestro="universidad">Universidad El Bosque</span> · <span data-maestro="semestre">4° semestre</span></p>
         </div>
-        <a href="#duelo" class="btn btn--gold">Contáctame</a>
+        <button class="btn btn--primary btn--cta" type="button" id="contactOpen" aria-haspopup="dialog"><span id="ctaLabel">Juguemos en equipo</span> <span class="btn__arrow" aria-hidden="true">→</span></button>
       </div>
     </section>
 
-    <!-- II. EL MAESTRO (sobre mí) -->
-    <section id="maestro" class="section">
-      <p class="eyebrow">Capítulo II · El Maestro</p>
-      <h2 class="section__title">Prólogo</h2>
-      <div class="maestro">
-        <div class="trainer-wrap">
-        <article class="trainer" aria-label="Carta del Maestro">
-          <div class="trainer__top">
-            <span class="trainer__tag">Maestro</span>
-            <span class="trainer__lvl">Nv. <b data-maestro="nivel">4</b></span>
+    <!-- II. EL MAESTRO (sobre mí): se abre un sobre, sale la carta del Maestro
+         y un scroll horizontal cuenta quién soy. Lo conduce el scroll (js/main.js · setupSobre) -->
+    <section id="maestro" class="sobre" data-nav="dark" aria-labelledby="maestroTitle">
+      <div class="sobre__stage" id="sobreStage">
+        <div class="sobre__tapete" aria-hidden="true"></div>
+
+        <header class="sobre__head">
+          <p class="eyebrow">Capítulo II · El Maestro</p>
+          <h2 class="sobre__title" id="maestroTitle">Quién soy</h2>
+        </header>
+
+        <!-- sobre: dos capas de la misma imagen (cuerpo + tira que se arranca) -->
+        <div class="pack" id="pack" aria-hidden="true">
+          <img class="pack__body" id="packBody" alt="" decoding="async">
+          <img class="pack__strip" id="packStrip" alt="" decoding="async">
+          <span class="pack__flash" id="packFlash"></span>
+        </div>
+
+        <!-- dónde se acomoda la carta (invisible: main.js mide su posición y tamaño) -->
+        <div class="mcard__slot" id="mcardSlot" aria-hidden="true"></div>
+
+        <!-- carta del Maestro: externo (subir / acomodar) · medio (tilt) · interno (volteo) -->
+        <div class="mcard" id="mcard">
+          <div class="mcard__glow" id="mcardGlow" aria-hidden="true"></div>
+          <div class="mcard__ring" id="mcardRing" aria-hidden="true"></div>
+          <div class="mcard__tilt trainer-wrap" id="mcardTilt">
+            <div class="mcard__inner" id="mcardInner">
+              <div class="mcard__face mcard__back card-back" aria-hidden="true"></div>
+              <div class="mcard__face mcard__front">
+                <article class="trainer" aria-label="Carta del Maestro">
+                  <div class="trainer__top">
+                    <span class="trainer__tag">Maestro</span>
+                    <span class="trainer__lvl">Nv. <b data-maestro="nivel">4</b></span>
+                  </div>
+                  <div class="trainer__photo" id="trainerPhoto"></div>
+                  <h3 class="trainer__name" data-maestro="nombreCompleto">Samuel Santiago Silva Largo</h3>
+                  <dl class="trainer__info">
+                    <div><dt>Clase</dt><dd data-maestro="clase">Creador Digital</dd></div>
+                    <div><dt>Origen</dt><dd data-maestro="origen">Bogotá, Colombia</dd></div>
+                    <div><dt>Cartas</dt><dd id="trainerCount">0</dd></div>
+                  </dl>
+                  <div class="trainer__holo" aria-hidden="true"></div>
+                </article>
+              </div>
+            </div>
           </div>
-          <div class="trainer__photo" id="trainerPhoto"></div>
-          <h3 class="trainer__name" data-maestro="nombreCompleto">Samuel Santiago Silva Largo</h3>
-          <dl class="trainer__info">
-            <div><dt>Clase</dt><dd data-maestro="clase">Creador Digital</dd></div>
-            <div><dt>Origen</dt><dd data-maestro="origen">Bogotá, Colombia</dd></div>
-            <div><dt>Cartas</dt><dd id="trainerCount">0</dd></div>
-          </dl>
-          <div class="trainer__holo" aria-hidden="true"></div>
-        </article>
         </div>
-        <div class="maestro__text" id="prologo"></div>
+
+        <!-- paneles "quién soy": ocupa todo el escenario, por debajo de la carta;
+             un mask horizontal los difumina al acercarse a la carta -->
+        <div class="sobre__window" id="sobreWindow">
+          <div class="sobre__track" id="sobreTrack"></div>
+        </div>
+
+        <div class="sobre__bar" id="sobreBar" aria-hidden="true"><span id="sobreBarFill"></span></div>
+        <p class="sobre__hint" id="sobreHint" aria-hidden="true">Sigue scrolleando →</p>
       </div>
     </section>
 
-    <!-- III. LAS REGLAS (cómo leer las cartas) -->
-    <section id="reglas" class="section">
-      <p class="eyebrow">Capítulo III · Las Reglas</p>
-      <h2 class="section__title">Cómo leer mis cartas</h2>
-      <div class="rules">
-        <div class="rule">
-          <h3>Rareza = Dominio</h3>
-          <ul class="rule__list" id="rulesRareza"></ul>
-        </div>
-        <div class="rule">
-          <h3>Estrellas = Experiencia</h3>
-          <p>De <span class="stars">★</span> a <span class="stars">★★★★★</span>. Tiempo y proyectos acumulados usando esa skill.</p>
-          <h3>Habilidades = Herramientas</h3>
-          <p>Las técnicas y programas con los que ejecuto la skill. El número indica su poder (qué tan fuerte la tengo).</p>
-        </div>
-        <div class="rule">
-          <h3>Estadísticas</h3>
-          <ul class="rule__list" id="rulesStats"></ul>
-        </div>
+    <!-- III. LAS REGLAS (cómo leer mis cartas): 4 diapositivas en scroll horizontal
+         conducido por el scroll vertical (js/main.js · setupReglas) -->
+    <section id="reglas" class="reglas" data-nav="violet" aria-labelledby="reglasTitle">
+      <div class="reglas__stage" id="reglasStage">
+        <div class="reglas__bg" aria-hidden="true"></div>
+        <header class="reglas__bar">
+          <div class="reglas__head">
+            <p class="eyebrow" id="reglasEyebrow">Capítulo III · Las Reglas</p>
+            <h2 class="reglas__title" id="reglasTitle">Cómo leer mis cartas</h2>
+          </div>
+          <nav class="reglas__steps" aria-label="Pasos de las reglas">
+            <ol id="reglasSteps"></ol>
+            <span class="reglas__count" id="reglasCount" aria-hidden="true">1 / 4</span>
+          </nav>
+        </header>
+        <div class="reglas__track" id="reglasTrack"></div>
       </div>
     </section>
 
@@ -112,26 +147,42 @@
       <div class="deck" id="deck"></div>
     </section>
 
-    <!-- V. EL DUELO (contacto) -->
-    <section id="duelo" class="section duelo">
-      <p class="eyebrow">Capítulo V · El Duelo</p>
-      <h2 class="section__title">¿Aceptas el reto?</h2>
-      <p class="section__lead">Si tienes un proyecto, tráelo a la mesa. Elegiré las cartas correctas para ganarlo juntos.</p>
-      <button class="btn btn--gold" id="contactOpen" type="button" aria-haspopup="dialog">Retar al Maestro</button>
-      <ul class="socials" id="socials"></ul>
+    <!-- V. LA MANO FINAL (cierre): responde al hero con un marquee espejo y la mano de cartas del mazo.
+         Sin botón: el contacto se abre desde el hero o desde "Contact" del menú. Lo arma main.js · renderCierre -->
+    <section id="duelo" class="duelo" data-nav="dark" aria-labelledby="cierreTitle">
+      <div class="duelo__bg" aria-hidden="true"></div>
+      <div class="duelo__marquee" aria-hidden="true">
+        <div class="marquee marquee--ink marquee--outline">
+          <div class="marquee__track">
+            <span>JUGUEMOS EN EQUIPO <i class="marquee__card"></i> JUGUEMOS EN EQUIPO <i class="marquee__card"></i> </span><span>JUGUEMOS EN EQUIPO <i class="marquee__card"></i> JUGUEMOS EN EQUIPO <i class="marquee__card"></i> </span>
+          </div>
+        </div>
+        <div class="marquee marquee--ink marquee--fill">
+          <div class="marquee__track">
+            <span>JUGUEMOS EN EQUIPO <i class="marquee__card"></i> JUGUEMOS EN EQUIPO <i class="marquee__card"></i> </span><span>JUGUEMOS EN EQUIPO <i class="marquee__card"></i> JUGUEMOS EN EQUIPO <i class="marquee__card"></i> </span>
+          </div>
+        </div>
+      </div>
+      <div class="duelo__inner">
+        <p class="eyebrow duelo__eyebrow" id="cierreEyebrow">Capítulo V · La mano final</p>
+        <h2 class="duelo__title" id="cierreTitle">Esta es mi <span class="duelo__hl">baraja</span></h2>
+        <p class="duelo__text" id="cierreText">Estas son las cartas que juego hoy, y vienen más. Si alguna encaja en tu equipo, conversemos.</p>
+        <div class="mano" id="mano" aria-hidden="true"></div>
+        <ul class="socials" id="socials"></ul>
+      </div>
     </section>
   </main>
 
   <footer class="footer">
-    <p>© <span id="year"></span> <span data-maestro="nombre">Tu Nombre</span> · Set: Origen</p>
+    <p>© <span id="year"></span> <span data-maestro="nombre">Samu</span></p>
   </footer>
 
-  <!-- RETO (ventana de contacto) -->
+  <!-- CONTACTO (ventana que abren el botón del hero y "Contact" del menú; textos de MAESTRO.cta) -->
   <dialog class="reto" id="contactDialog" aria-labelledby="contactTitle">
-    <button class="summon__close" id="contactClose" aria-label="Cerrar">✕</button>
-    <p class="eyebrow">El Duelo</p>
-    <h2 id="contactTitle">Reta al Maestro</h2>
-    <p class="reto__lead">Elige cómo lanzar tu reto:</p>
+    <button class="summon__close" id="contactClose" type="button" aria-label="Cerrar">✕</button>
+    <p class="eyebrow" id="contactEyebrow">Contacto</p>
+    <h2 id="contactTitle">Juguemos en equipo</h2>
+    <p class="reto__lead" id="contactLead">Elige cómo conectamos:</p>
     <div class="contact">
       <a class="contact__link" id="contactPhone" href="tel:">
         <span class="contact__icon" aria-hidden="true">☎</span>
@@ -156,22 +207,36 @@
     <button class="viewer__nav viewer__nav--next" id="viewerNext" aria-label="Siguiente">›</button>
   </dialog>
 
-  <!-- INVOCACIÓN (detalle de carta) -->
+  <!-- LA PARTIDA (detalle de carta a pantalla completa): vista Mano (mini-cartas) y vista Detalle (una jugada) -->
   <dialog class="summon" id="summon" aria-labelledby="summonTitle">
-    <button class="summon__close" id="summonClose" aria-label="Cerrar">✕</button>
-    <div class="summon__body">
-      <div class="summon__card" id="summonCard"></div>
-      <div class="summon__info">
-        <p class="eyebrow">Carta invocada</p>
-        <h2 id="summonTitle"></h2>
-        <p class="summon__subtitle" id="summonSubtitle"></p>
-        <h3 class="summon__heading">Jugadas (proyectos)</h3>
-        <div id="summonPlays"></div>
+    <div class="summon__bg" aria-hidden="true"></div>
+    <header class="summon__bar">
+      <button class="sbtn" id="summonBack" type="button">← Mazo</button>
+      <p class="summon__chip" id="summonChip"></p>
+      <div class="summon__tools">
+        <span class="summon__count" id="summonCount" aria-live="polite"></span>
+        <button class="sbtn sbtn--icon" id="summonPrev" type="button" aria-label="Jugada anterior">‹</button>
+        <button class="sbtn sbtn--icon" id="summonNext" type="button" aria-label="Jugada siguiente">›</button>
+        <button class="sbtn sbtn--icon" id="summonClose" type="button" aria-label="Cerrar">✕</button>
       </div>
-    </div>
+    </header>
+
+    <section class="summon__hand" id="summonHand">
+      <header class="summon__info">
+        <p class="eyebrow">Carta invocada</p>
+        <h2 id="summonTitle" tabindex="-1"></h2>
+        <p class="summon__subtitle" id="summonSubtitle"></p>
+        <h3 class="summon__heading">Mis jugadas</h3>
+      </header>
+      <div class="summon__deck" id="summonDeck"></div>
+    </section>
+
+    <section class="summon__detail" id="summonDetail" hidden>
+      <div id="summonPlays"></div>
+    </section>
   </dialog>
 
-  <script src="js/data.js?v=24"></script>
-  <script src="js/main.js?v=24"></script>
+  <script src="js/data.js?v=39"></script>
+  <script src="js/main.js?v=47"></script>
 </body>
 </html>
