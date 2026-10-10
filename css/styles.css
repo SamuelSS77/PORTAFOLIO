@@ -222,7 +222,7 @@ h1, h2, h3 { font-family: var(--font-title); font-weight: 800; text-transform: u
   position: absolute; z-index: 5;
   left: 0; right: 0; bottom: 0;
   display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;
-  padding: 0 max(clamp(16px, 4vw, 48px), calc((100% - 1104px) / 2)) var(--hero-text-bottom);
+  padding: 0 clamp(24px, 4.5vw, 72px) var(--hero-text-bottom);   /* cerca de los bordes, no centrado al contenedor de 1104px */
   pointer-events: none;
 }
 .hero__bottom > * { pointer-events: auto; }
